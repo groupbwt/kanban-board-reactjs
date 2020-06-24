@@ -26,9 +26,34 @@
   margin-top: 8px;
 }
 
-.column__btn {
+.column__buttons {
   position: absolute;
   left: 8px;
   bottom: 6px;
   width: calc(100% - 16px);
+}
+
+.column--create {
+  & .column__buttons {
+    bottom: 6px;
+  }
+}
+
+%column__btn {
+  width: 100%;
+}
+
+.column__btn {
+  @extend %column__btn;
+}
+
+.column__btn--create {
+  width: auto;
+  @extend %column__btn;
+}
+
+.column__btn--cancel {
+  width: auto;
+  margin-left: 8px;
+  @extend %column__btn;
 }
