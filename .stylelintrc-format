@@ -6,6 +6,11 @@
   ],
   "rules": {
     "indentation": 2,
-    "selector-max-id": null
+    "selector-max-id": null,
+    "declaration-property-value-blacklist": {
+      "border": {
+        "convention": "none"
+      }
+    },
   }
 }
