@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Columns from 'components/Columns/Columns';
+import { Columns } from 'components/Columns/Columns';
 import styles from './Dashboard.module.scss';
 
 class Dashboard extends Component {
@@ -9,36 +9,28 @@ class Dashboard extends Component {
         <Columns
           columns={[
             {
+              id: 1,
               title: 'Plan on month',
-              cards: [{ title: 'Test' }, { title: 'Test' }],
+              cards: [
+                { id: 1, title: 'Test' },
+                { id: 2, title: 'Test' },
+              ],
             },
             {
+              id: 2,
               title: 'Plan on day',
-              cards: [{ title: 'Test' }, { title: 'Test' }],
+              cards: [
+                { id: 1, title: 'Test' },
+                { id: 2, title: 'Test' },
+              ],
             },
             {
+              id: 3,
               title: 'Plan on month',
-              cards: [{ title: 'Test' }, { title: 'Test' }],
-            },
-            {
-              title: 'Plan on day',
-              cards: [{ title: 'Test' }, { title: 'Test' }],
-            },
-            {
-              title: 'Plan on month',
-              cards: [{ title: 'Test' }, { title: 'Test' }],
-            },
-            {
-              title: 'Plan on day',
-              cards: [{ title: 'Test' }, { title: 'Test' }],
-            },
-            {
-              title: 'Plan on month',
-              cards: [{ title: 'Test' }, { title: 'Test' }],
-            },
-            {
-              title: 'Plan on day',
-              cards: [{ title: 'Test' }, { title: 'Test' }],
+              cards: [
+                { id: 1, title: 'Test' },
+                { id: 2, title: 'Test' },
+              ],
             },
           ]}
         />
