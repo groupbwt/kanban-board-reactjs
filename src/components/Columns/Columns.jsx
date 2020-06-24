@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ColumnCreate } from 'components/Columns/Column/ColumnCreate';
 import { Column } from './Column/Column';
 import styles from './Columns.module.scss';
 
 Columns.propTypes = {
-  columns: PropTypes.arrayOf(),
+  columns: PropTypes.arrayOf(PropTypes.object),
 };
 Columns.defaultProps = {
   columns: [],
@@ -14,12 +15,12 @@ function Columns({ columns }) {
   return (
     <div className={styles.columns}>
       {columns.map((column) => (
-        <Column cards={column.cards} title={column.title} />
+        <Column key={column.id} cards={column.cards} title={column.title} />
       ))}
-      <Column />
+      <ColumnCreate />
       <div className={styles['columns__demy-column']} />
     </div>
   );
 }
 
-export default Columns;
+export { Columns };

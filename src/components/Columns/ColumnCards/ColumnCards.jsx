@@ -4,7 +4,7 @@ import styles from './ColumnCards.module.scss';
 import { ColumnCard } from '../ColumnCard/ColumnCard';
 
 ColumnCards.propTypes = {
-  cards: PropTypes.arrayOf(),
+  cards: PropTypes.arrayOf(PropTypes.object),
 };
 ColumnCards.defaultProps = {
   cards: [],
@@ -14,7 +14,7 @@ function ColumnCards({ cards }) {
   return (
     <ul className={styles.cards}>
       {cards.map((card) => (
-        <ColumnCard>{card.title}</ColumnCard>
+        <ColumnCard key={card.id}>{card.title}</ColumnCard>
       ))}
     </ul>
   );
