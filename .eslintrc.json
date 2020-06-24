@@ -1,6 +1,14 @@
 {
-  "extends": ["react-app", "airbnb", "prettier", "prettier/react"],
-  "plugins": ["react", "prettier"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx"]
+      }
+    }
+  },
+  "extends": ["react-app", "airbnb", "prettier", "plugin:import/errors", "plugin:import/warnings", "prettier/react"],
+  "plugins": ["react", "import", "prettier"],
   "rules": {
     "import/prefer-default-export": "off",
     "react/prefer-stateless-function": "off",
