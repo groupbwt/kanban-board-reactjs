@@ -1,4 +1,12 @@
 {
-  "extends": ["react-app", "airbnb", "prettier"],
-  "plugins": ["react", "prettier"]
+  "extends": ["react-app", "airbnb", "prettier", "prettier/react"],
+  "plugins": ["react", "prettier"],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "react/prefer-stateless-function": "off",
+    "react/require-default-props": 0,
+    "react/jsx-props-no-spreading": "off",
+    "no-use-before-define": ["error", { "functions": false, "classes": true }],
+    "semi": 2
+  }
 }
