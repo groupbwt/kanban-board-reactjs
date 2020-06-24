@@ -1,0 +1,22 @@
+@import "../../styles/variables";
+
+.button {
+  padding: 6px 8px;
+  font-size: 14px;
+  line-height: 19px;
+  color: $dark-blue;
+  text-align: left;
+  border: none;
+  border-radius: 3px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(#000, 0.08);
+  }
+}
+
+.button__text {
+  margin-left: 8px;
+}
