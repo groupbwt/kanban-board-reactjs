@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ColumnCreate } from "./Column/ColumnCreate";
-import { ColumnNew } from "./Column/ColumnNew";
+import { ColumnCreate } from './Column/ColumnCreate';
+import { ColumnNew } from './Column/ColumnNew';
 import { Column } from './Column/Column';
 import styles from './Columns.module.scss';
 
@@ -22,7 +22,12 @@ function Columns({ columns }) {
   return (
     <div className={styles.columns}>
       {columns.map((column) => (
-        <Column key={column.id} cards={column.cards} title={column.title} />
+        <Column
+          key={column.id}
+          id={column.id}
+          cards={column.cards}
+          title={column.title}
+        />
       ))}
       {isStartedCreatingColumn && (
         <ColumnNew toggleStartedCreatingColumn={toggleStartedCreatingColumn} />
