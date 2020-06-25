@@ -3,12 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "classnames": "^2.2.6",
+    "node-sass": "^4.14.1",
+    "normalize.css": "^8.0.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-textarea-autosize": "^8.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,10 +37,11 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.3.1",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-absolute-import": "^1.4.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
@@ -54,12 +63,10 @@
   "lint-staged": {
     "src/**/*.{css,scss}": [
       "prettier --write",
-      "stylelint --fix --config ./.stylelintrc-format",
-      "git add"
+      "stylelint --fix --config ./.stylelintrc-format"
     ],
     "src/**/*.{js,jsx}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
   }
 }

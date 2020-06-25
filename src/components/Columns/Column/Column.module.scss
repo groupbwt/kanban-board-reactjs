@@ -1,0 +1,71 @@
+@import "../../../styles/variables";
+
+.column {
+  position: relative;
+  flex-shrink: 0;
+  margin-left: 12px;
+  padding-bottom: 43px;
+  width: 272px;
+  border-radius: 3px;
+  background-color: $gray;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.column__header {
+  padding: 12px 9px 12px 13px;
+}
+
+.column--new {
+  & .column__header {
+    padding-left: 9px;
+  }
+}
+
+.column__headerInput {
+  font-weight: bold;
+}
+
+.column__cards {
+  padding: 0 9px;
+}
+
+.column__textarea {
+  margin-top: 8px;
+}
+
+.column__buttons {
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 16px);
+}
+
+.column--create {
+  & .column__buttons {
+    bottom: 6px;
+  }
+}
+
+%column__btn {
+  width: 100%;
+}
+
+.column__btn {
+  @extend %column__btn;
+}
+
+.column__btn--create {
+  width: auto;
+  @extend %column__btn;
+}
+
+.column__btn--cancel {
+  width: auto;
+  margin-left: 8px;
+  @extend %column__btn;
+}
