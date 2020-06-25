@@ -26,6 +26,15 @@ function Column({ id, title, cards }) {
   const dispatch = useDispatch();
 
   function toggleStartCreatCard() {
+    if (!isStartedCreatingCard) {
+      dispatch(
+        TasksActions.onChangeNewCardTitle({
+          columnId: id,
+          value: '',
+        })
+      );
+    }
+
     setIsStartedCreatingCard((prevState) => !prevState);
   }
 
