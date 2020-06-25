@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { Button } from 'components/Button/Button';
+import { Button } from 'components/FormControls/Button/Button';
 import { Textarea } from 'components/FormControls/Textarea/Textarea';
 import { ColumnTitle } from '../ColumnTitle/ColumnTitle';
 import { ColumnCards } from '../ColumnCards/ColumnCards';

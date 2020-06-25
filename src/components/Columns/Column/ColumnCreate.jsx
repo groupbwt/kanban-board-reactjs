@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classes from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Button } from 'components/Button/Button';
+import { Button } from 'components/FormControls/Button/Button';
 import styles from './Column.module.scss';
 
 ColumnCreate.propTypes = {

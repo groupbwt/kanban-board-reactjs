@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import styles from './Button.module.scss';
+import styles from 'components/FormControls/Button/Button.module.scss';
 
 Button.propTypes = {
   type: PropTypes.string,
