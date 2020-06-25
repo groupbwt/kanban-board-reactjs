@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classes from 'classnames';
 import TextareaAutosize from 'react-textarea-autosize';
 import styles from './Textarea.module.scss';
 
@@ -13,7 +14,7 @@ Textarea.defaultProps = {
 function Textarea({ className, ...props }) {
   return (
     <TextareaAutosize
-      className={`${styles.textarea} ${className}`}
+      className={classes(styles.textarea, className)}
       {...props}
     />
   );
