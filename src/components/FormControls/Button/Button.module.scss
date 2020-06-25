@@ -1,6 +1,8 @@
 @import "../../../styles/variables";
 
 .button {
+  position: relative;
+  min-height: 32px;
   padding: 6px 8px;
   font-size: 14px;
   line-height: 19px;
@@ -21,6 +23,10 @@
   }
 }
 
+.button__text {
+  margin-left: 8px;
+}
+
 .icon {
   display: inline-flex;
   justify-content: center;
@@ -29,8 +35,8 @@
 
 .green {
   color: #fff;
-  background-color: $green;
   outline-color: #959595;
+  background-color: $green;
 
   &:hover {
     background-color: rgba($green, 0.8);
@@ -41,6 +47,32 @@
   background-color: transparent;
 }
 
-.button__text {
-  margin-left: 8px;
+.loading {
+
+  pointer-events: none;
+  & .button__text,
+  & .button__icon {
+    opacity: 0;
+  }
+}
+
+.button__spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  margin-left: -8px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-left: 3px solid #fff;
+  border-radius: 50%;
+  animation: spinner 0.5s infinite linear;
+}
+
+@keyframes spinner {
+  100% {
+    transform: rotate(360deg);
+  }
 }

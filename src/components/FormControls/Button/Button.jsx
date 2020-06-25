@@ -10,11 +10,13 @@ Button.propTypes = {
   icon: PropTypes.node,
   className: PropTypes.string,
   color: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 Button.defaultProps = {
   displayType: 'default',
   type: 'button',
+  loading: false,
 };
 
 function Button({
@@ -24,6 +26,7 @@ function Button({
   icon,
   className,
   color,
+  loading,
   ...restProps
 }) {
   return (
@@ -35,12 +38,22 @@ function Button({
         [styles.icon]: displayType === 'icon',
         [styles.green]: color === 'green',
         [styles.transparent]: color === 'transparent',
+        [styles.loading]: loading,
       })}
       {...restProps}
     >
-      {icon && <span>{icon}</span>}
-      {displayType !== 'icon' && (
-        <span className={styles.button__text}>{children}</span>
+      <div className={styles.button__content}>
+        {icon && <span className={styles.button__icon}>{icon}</span>}
+        {displayType !== 'icon' && (
+          <>
+            <span className={styles.button__text}>{children}</span>
+          </>
+        )}
+      </div>
+      {loading && (
+        <>
+          <div className={styles.button__spinner} />
+        </>
       )}
     </button>
   );
