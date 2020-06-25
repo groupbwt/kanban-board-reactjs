@@ -2,12 +2,16 @@
 
 .column {
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
+  max-height: calc(100% - 43px);
+  width: 272px;
   margin-left: 12px;
   padding-bottom: 43px;
-  width: 272px;
   border-radius: 3px;
   background-color: $gray;
+  overflow: hidden;
 
   &:first-child {
     margin-left: 0;
@@ -29,7 +33,10 @@
 }
 
 .column__cards {
+  flex-grow: 1;
+  flex-shrink: 1;
   padding: 0 9px;
+  overflow-y: auto;
 }
 
 .column__textarea {

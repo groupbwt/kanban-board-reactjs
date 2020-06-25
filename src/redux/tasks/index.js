@@ -5,6 +5,7 @@ const tasksAdapter = createEntityAdapter({});
 
 const initialState = {
   isLoading: false,
+  newCardTitles: {},
   error: false,
 };
 
@@ -21,6 +22,19 @@ const tasksSlice = createSlice({
     },
     tasksFailed(state) {
       state.isLoading = false;
+    },
+    startCreateCard(state, action) {
+      state.entities[action.payload.columnId].isCreatingCard = true;
+    },
+    createdCard(state, action) {
+      const { columnId, card } = action.payload;
+      state.entities[columnId].isCreatingCard = false;
+      state.newCardTitles[columnId] = '';
+      state.entities[columnId].cards.push(card);
+    },
+    onChangeNewCardTitle(state, action) {
+      const { columnId, value = '' } = action.payload;
+      state.newCardTitles[columnId] = value;
     },
   },
 });
