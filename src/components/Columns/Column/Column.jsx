@@ -3,22 +3,20 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'components/Button/Button';
+import { Textarea } from 'components/FormControls/Textarea/Textarea';
 import { ColumnTitle } from '../ColumnTitle/ColumnTitle';
 import { ColumnCards } from '../ColumnCards/ColumnCards';
 import styles from './Column.module.scss';
-import { Textarea } from '../../Textarea/Textarea';
 
 Column.propTypes = {
   title: PropTypes.string,
   cards: PropTypes.arrayOf(PropTypes.object),
-  className: PropTypes.string,
 };
 Column.defaultProps = {
   cards: [],
-  className: '',
 };
 
-function Column({ title, cards, className }) {
+function Column({ title, cards }) {
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
 
   function toggleStartCreatCard() {
@@ -26,7 +24,7 @@ function Column({ title, cards, className }) {
   }
 
   return (
-    <div className={`${styles.column} ${className}`}>
+    <div className={styles.column}>
       {title && (
         <div className={styles.column__header}>
           <ColumnTitle>{title}</ColumnTitle>
@@ -46,13 +44,13 @@ function Column({ title, cards, className }) {
         )}
       </div>
       <div className={styles.column__buttons}>
-        {isStartedCreatingCard ? (
+        {isStartedCreatingCard && (
           <>
             <Button
               onClick={toggleStartCreatCard}
               className={styles['column__btn--create']}
               color="green"
-              icon={<FontAwesomeIcon icon={faPlus} size="md" />}
+              icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
             >
               Add Card
             </Button>
@@ -64,11 +62,12 @@ function Column({ title, cards, className }) {
               icon={<FontAwesomeIcon icon={faTimes} size="lg" />}
             />
           </>
-        ) : (
+        )}
+        {!isStartedCreatingCard && (
           <Button
             onClick={toggleStartCreatCard}
             className={styles.column__btn}
-            icon={<FontAwesomeIcon icon={faPlus} size="md" />}
+            icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
           >
             Add a card
           </Button>
