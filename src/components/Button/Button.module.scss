@@ -15,6 +15,10 @@
   &:hover {
     background-color: rgba(#000, 0.08);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .icon {
