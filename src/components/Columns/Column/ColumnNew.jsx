@@ -1,22 +1,39 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import classes from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'components/Button/Button';
-import { Input } from 'components/Input/Input';
+import { Input } from 'components/FormControls/Input/Input';
 import styles from './Column.module.scss';
 
-function ColumnNew() {
+ColumnNew.propTypes = {
+  toggleStartedCreatingColumn: PropTypes.func.isRequired,
+};
+
+function ColumnNew({ toggleStartedCreatingColumn }) {
   return (
-    <div className={`${styles.column}`}>
+    <div className={classes(styles.column, styles['column--new'])}>
       <div className={styles.column__header}>
-        <Input />
+        <Input className={styles.column__headerInput} placeholder="Enter list title..." />
       </div>
-      <Button
-        className={styles.column__btn}
-        icon={<FontAwesomeIcon icon={faPlus} size="md" />}
-      >
-        Add list
-      </Button>
+      <div className={styles.column__buttons}>
+        <Button
+          onClick={() => {}}
+          className={styles['column__btn--create']}
+          color="green"
+          icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
+        >
+          Add List
+        </Button>
+        <Button
+          displayType="icon"
+          onClick={toggleStartedCreatingColumn}
+          className={styles['column__btn--cancel']}
+          color="transparent"
+          icon={<FontAwesomeIcon icon={faTimes} size="lg" />}
+        />
+      </div>
     </div>
   );
 }
