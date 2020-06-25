@@ -18,6 +18,16 @@
   padding: 12px 9px 12px 13px;
 }
 
+.column--new {
+  & .column__header {
+    padding-left: 9px;
+  }
+}
+
+.column__headerInput {
+  font-weight: bold;
+}
+
 .column__cards {
   padding: 0 9px;
 }
@@ -30,6 +40,8 @@
   position: absolute;
   left: 8px;
   bottom: 6px;
+  display: flex;
+  justify-content: space-between;
   width: calc(100% - 16px);
 }
 

@@ -1,16 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import classes from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'components/Button/Button';
 import styles from './Column.module.scss';
 
-function ColumnCreate() {
+ColumnCreate.propTypes = {
+  onStartCreateColumn: PropTypes.func.isRequired,
+  isCreatingColumn: PropTypes.bool.isRequired,
+};
+
+function ColumnCreate({ isCreatingColumn, onStartCreateColumn }) {
   return (
-    <div className={`${styles.column} ${styles['column--create']}`}>
+    <div className={classes(styles.column, styles['column--create'])}>
       <div className={styles.column__buttons}>
         <Button
           className={styles.column__btn}
-          icon={<FontAwesomeIcon icon={faPlus} size="md" />}
+          onClick={onStartCreateColumn}
+          disabled={isCreatingColumn}
+          icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
         >
           Add another list
         </Button>
