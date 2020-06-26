@@ -24,17 +24,17 @@ const tasksSlice = createSlice({
       state.isLoading = false;
     },
     startCreateCard(state, action) {
-      state.entities[action.payload.columnId].isCreatingCard = true;
+      state.entities[action.payload.listId].isCreatingCard = true;
     },
     createdCard(state, action) {
-      const { columnId, card } = action.payload;
-      state.entities[columnId].isCreatingCard = false;
-      state.newCardTitles[columnId] = '';
-      state.entities[columnId].cards.push(card);
+      const { listId, card } = action.payload;
+      state.entities[listId].isCreatingCard = false;
+      state.newCardTitles[listId] = '';
+      state.entities[listId].cards.push(card);
     },
     onChangeNewCardTitle(state, action) {
-      const { columnId, value = '' } = action.payload;
-      state.newCardTitles[columnId] = value;
+      const { listId, value = '' } = action.payload;
+      state.newCardTitles[listId] = value;
     },
   },
 });

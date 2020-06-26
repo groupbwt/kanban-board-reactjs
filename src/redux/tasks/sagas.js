@@ -19,7 +19,7 @@ export function* createCard(action) {
   yield delay(1500);
   yield put(
     TasksActions.createdCard({
-      columnId: action.payload.columnId,
+      listId: action.payload.listId,
       card: {
         id: uuidv4(),
         title: action.payload.title,

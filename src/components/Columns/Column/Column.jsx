@@ -29,7 +29,7 @@ function Column({ id, title, cards }) {
     if (!isStartedCreatingCard) {
       dispatch(
         TasksActions.onChangeNewCardTitle({
-          columnId: id,
+          listId: id,
           value: '',
         })
       );
@@ -43,7 +43,7 @@ function Column({ id, title, cards }) {
 
     dispatch(
       TasksActions.onChangeNewCardTitle({
-        columnId: id,
+        listId: id,
         value,
       })
     );
@@ -54,7 +54,7 @@ function Column({ id, title, cards }) {
 
     dispatch(
       TasksActions.startCreateCard({
-        columnId: id,
+        listId: id,
         title: newCardTitle,
       })
     );
