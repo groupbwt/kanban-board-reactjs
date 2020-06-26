@@ -19,7 +19,7 @@
 }
 
 .column__header {
-  padding: 12px 9px 12px 13px;
+  padding: 12px 9px 4px 13px;
 }
 
 .column--new {
@@ -37,10 +37,6 @@
   flex-shrink: 1;
   padding: 0 9px;
   overflow-y: auto;
-}
-
-.column__textarea {
-  margin-top: 8px;
 }
 
 .column__buttons {

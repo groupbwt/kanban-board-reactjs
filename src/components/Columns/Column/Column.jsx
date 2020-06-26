@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import classes from 'classnames';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -14,22 +15,45 @@ Column.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   title: PropTypes.string,
   cards: PropTypes.arrayOf(PropTypes.object),
+  onAddCard: PropTypes.func.isRequired,
 };
 Column.defaultProps = {
   cards: [],
 };
 
-function Column({ id, title, cards }) {
+function Column({ id, title, cards, onAddCard }) {
   const column = useSelector((state) => state.tasks.entities[id]);
   const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
   const dispatch = useDispatch();
+  const cardTextareaRef = useRef();
+  const columnCardsRef = useRef();
+
+  useEffect(() => {
+    if (!isStartedCreatingCard || !cardTextareaRef.current) return;
+
+    cardTextareaRef.current.addEventListener('keypress', handleTextArea);
+
+    // eslint-disable-next-line
+    return () => {
+      if (!cardTextareaRef.current) return;
+
+      cardTextareaRef.current.removeEventListener('keypress', handleTextArea);
+    };
+  }, [cardTextareaRef, isStartedCreatingCard, newCardTitle]);
+
+  function handleTextArea(e) {
+    if (e && Number(e.which) === 13) {
+      e.preventDefault();
+      onCreateCard();
+    }
+  }
 
   function toggleStartCreatCard() {
     if (!isStartedCreatingCard) {
       dispatch(
         TasksActions.onChangeNewCardTitle({
-          columnId: id,
+          listId: id,
           value: '',
         })
       );
@@ -43,21 +67,18 @@ function Column({ id, title, cards }) {
 
     dispatch(
       TasksActions.onChangeNewCardTitle({
-        columnId: id,
+        listId: id,
         value,
       })
     );
   }
 
-  function onCreateNewCard() {
+  function onCreateCard() {
     if (!newCardTitle.trim().length) return;
-
-    dispatch(
-      TasksActions.startCreateCard({
-        columnId: id,
-        title: newCardTitle,
-      })
-    );
+    onAddCard({
+      listId: id,
+      title: newCardTitle,
+    });
   }
 
   return (
@@ -68,17 +89,23 @@ function Column({ id, title, cards }) {
         </div>
       )}
 
-      <div className={styles.column__cards}>
+      <div
+        ref={columnCardsRef}
+        className={classes(
+          styles.column__cards,
+          `dashboard__column-${id}-cards`
+        )}
+      >
         <ColumnCards cards={cards} />
-
         {isStartedCreatingCard && (
           <Textarea
-            className={styles.column__textarea}
+            inputRef={cardTextareaRef}
             value={newCardTitle}
             onChange={onChangeNewCardValue}
             placeholder="Enter a title for this card..."
             minRows={3}
             maxRows={7}
+            autoFocus
           />
         )}
       </div>
@@ -87,7 +114,7 @@ function Column({ id, title, cards }) {
           <>
             <Button
               className={styles['column__btn--create']}
-              onClick={onCreateNewCard}
+              onClick={onCreateCard}
               loading={column.isCreatingCard}
               color="green"
               icon={<FontAwesomeIcon icon={faPlus} size="sm" />}

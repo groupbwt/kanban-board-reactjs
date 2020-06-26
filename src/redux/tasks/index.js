@@ -4,9 +4,10 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 const tasksAdapter = createEntityAdapter({});
 
 const initialState = {
-  isLoading: false,
+  newListTitle: '',
   newCardTitles: {},
-  error: false,
+  isLoading: false,
+  isLoadingNewList: false,
 };
 
 const tasksSlice = createSlice({
@@ -23,18 +24,29 @@ const tasksSlice = createSlice({
     tasksFailed(state) {
       state.isLoading = false;
     },
+    startCreateList(state) {
+      state.isLoadingNewList = true;
+    },
+    createdList(state, action) {
+      tasksAdapter.addOne(state, action.payload);
+      state.newListTitle = '';
+      state.isLoadingNewList = false;
+    },
+    onChangeNewListTitle(state, action) {
+      state.newListTitle = action.payload;
+    },
     startCreateCard(state, action) {
-      state.entities[action.payload.columnId].isCreatingCard = true;
+      state.entities[action.payload.listId].isCreatingCard = true;
     },
     createdCard(state, action) {
-      const { columnId, card } = action.payload;
-      state.entities[columnId].isCreatingCard = false;
-      state.newCardTitles[columnId] = '';
-      state.entities[columnId].cards.push(card);
+      const { listId, card } = action.payload;
+      state.entities[listId].isCreatingCard = false;
+      state.newCardTitles[listId] = '';
+      state.entities[listId].cards.push(card);
     },
     onChangeNewCardTitle(state, action) {
-      const { columnId, value = '' } = action.payload;
-      state.newCardTitles[columnId] = value;
+      const { listId, value = '' } = action.payload;
+      state.newCardTitles[listId] = value;
     },
   },
 });

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classes from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectSaga } from 'redux-injectors';
@@ -13,11 +14,25 @@ class Dashboard extends Component {
     getTasks();
   }
 
+  onAddCard = (payload) => {
+    const { startCreateCard } = this.props;
+    startCreateCard(payload);
+  };
+
+  onAddList = (title) => {
+    const { startCreateList } = this.props;
+    startCreateList({ title });
+  };
+
   render() {
     const { tasks } = this.props;
     return (
-      <div className={styles.dashboard}>
-        <Columns columns={tasks} onCreateCard={this.onCreateCard} />
+      <div className={classes(styles.dashboard, 'dashboard-page')}>
+        <Columns
+          columns={tasks}
+          onAddCard={this.onAddCard}
+          onAddList={this.onAddList}
+        />
       </div>
     );
   }
@@ -26,6 +41,8 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.object),
   getTasks: PropTypes.func.isRequired,
+  startCreateList: PropTypes.func.isRequired,
+  startCreateCard: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -38,6 +55,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getTasks: () => dispatch(TasksActions.getTasks()),
+  startCreateList: (title) => dispatch(TasksActions.startCreateList(title)),
+  startCreateCard: (payload) => dispatch(TasksActions.startCreateCard(payload)),
 });
 
 export default connect(

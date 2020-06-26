@@ -7,12 +7,14 @@ import styles from './Columns.module.scss';
 
 Columns.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.object),
+  onAddCard: PropTypes.func.isRequired,
+  onAddList: PropTypes.func.isRequired,
 };
 Columns.defaultProps = {
   columns: [],
 };
 
-function Columns({ columns }) {
+function Columns({ columns, onAddList, onAddCard }) {
   const [isStartedCreatingColumn, setIsStartedCreatingColumn] = useState(false);
 
   function toggleStartedCreatingColumn() {
@@ -27,10 +29,14 @@ function Columns({ columns }) {
           id={column.id}
           cards={column.cards}
           title={column.title}
+          onAddCard={onAddCard}
         />
       ))}
       {isStartedCreatingColumn && (
-        <ColumnNew toggleStartedCreatingColumn={toggleStartedCreatingColumn} />
+        <ColumnNew
+          onAddList={onAddList}
+          toggleStartedCreatingColumn={toggleStartedCreatingColumn}
+        />
       )}
       <ColumnCreate
         isCreatingColumn={isStartedCreatingColumn}
