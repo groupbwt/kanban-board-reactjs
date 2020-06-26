@@ -11,6 +11,8 @@ ColumnCards.defaultProps = {
 };
 
 function ColumnCards({ cards }) {
+  if (cards && !cards.length) return null;
+
   return (
     <ul className={styles.cards}>
       {cards.map((card) => (

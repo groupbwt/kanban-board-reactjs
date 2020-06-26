@@ -6,7 +6,7 @@ function getTasksRequest() {
   return fetch('tasks.json').then((res) => res.json());
 }
 
-export function* getTasks() {
+function* getTasks() {
   try {
     const data = yield call(getTasksRequest);
     yield put(TasksActions.tasksReceived(data.tasks));
@@ -15,8 +15,8 @@ export function* getTasks() {
   }
 }
 
-export function* createCard(action) {
-  yield delay(1500);
+function* createCard(action) {
+  yield delay(800);
   yield put(
     TasksActions.createdCard({
       listId: action.payload.listId,
@@ -28,6 +28,21 @@ export function* createCard(action) {
   );
 }
 
+function* createList(action) {
+  yield delay(800);
+  yield put(
+    TasksActions.createdList({
+      id: uuidv4(),
+      title: action.payload.title,
+      cards: [],
+    })
+  );
+}
+
+export function* watchCreateList() {
+  yield takeEvery(TasksActions.startCreateList.toString(), createList);
+}
+
 export function* watchCreateCard() {
   yield takeEvery(TasksActions.startCreateCard.toString(), createCard);
 }
@@ -37,5 +52,5 @@ export function* watchGetTasks() {
 }
 
 export function* watchersTasks() {
-  yield all([watchCreateCard(), watchGetTasks()]);
+  yield all([watchCreateCard(), watchGetTasks(), watchCreateList()]);
 }

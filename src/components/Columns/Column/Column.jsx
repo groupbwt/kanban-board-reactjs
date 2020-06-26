@@ -14,12 +14,13 @@ Column.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   title: PropTypes.string,
   cards: PropTypes.arrayOf(PropTypes.object),
+  onAddCard: PropTypes.func.isRequired,
 };
 Column.defaultProps = {
   cards: [],
 };
 
-function Column({ id, title, cards }) {
+function Column({ id, title, cards, onAddCard }) {
   const column = useSelector((state) => state.tasks.entities[id]);
   const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
@@ -49,15 +50,12 @@ function Column({ id, title, cards }) {
     );
   }
 
-  function onCreateNewCard() {
+  function onCreateCard() {
     if (!newCardTitle.trim().length) return;
-
-    dispatch(
-      TasksActions.startCreateCard({
-        listId: id,
-        title: newCardTitle,
-      })
-    );
+    onAddCard({
+      listId: id,
+      title: newCardTitle,
+    });
   }
 
   return (
@@ -87,7 +85,7 @@ function Column({ id, title, cards }) {
           <>
             <Button
               className={styles['column__btn--create']}
-              onClick={onCreateNewCard}
+              onClick={onCreateCard}
               loading={column.isCreatingCard}
               color="green"
               icon={<FontAwesomeIcon icon={faPlus} size="sm" />}

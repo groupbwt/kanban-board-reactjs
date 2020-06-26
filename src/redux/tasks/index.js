@@ -4,9 +4,10 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 const tasksAdapter = createEntityAdapter({});
 
 const initialState = {
-  isLoading: false,
+  newListTitle: '',
   newCardTitles: {},
-  error: false,
+  isLoading: false,
+  isLoadingNewList: false,
 };
 
 const tasksSlice = createSlice({
@@ -22,6 +23,17 @@ const tasksSlice = createSlice({
     },
     tasksFailed(state) {
       state.isLoading = false;
+    },
+    startCreateList(state) {
+      state.isLoadingNewList = true;
+    },
+    createdList(state, action) {
+      tasksAdapter.addOne(state, action.payload);
+      state.newListTitle = '';
+      state.isLoadingNewList = false;
+    },
+    onChangeNewListTitle(state, action) {
+      state.newListTitle = action.payload;
     },
     startCreateCard(state, action) {
       state.entities[action.payload.listId].isCreatingCard = true;
