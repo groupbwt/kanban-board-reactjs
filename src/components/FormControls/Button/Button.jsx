@@ -34,13 +34,11 @@ function Button({
       type={type}
       className={classnames({
         [styles.button]: true,
+        [styles['button--with-icon']]: !!icon,
         [className]: !!className,
         [styles.icon]: displayType === 'icon',
-        [styles.green]: color === 'green',
-        [styles.red]: color === 'red',
-        [styles.transparent]: color === 'transparent',
         [styles.loading]: loading,
-      })}
+      }, styles[color])}
       {...restProps}
     >
       <div>

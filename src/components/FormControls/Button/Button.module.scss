@@ -22,8 +22,10 @@
   }
 }
 
-.button__text {
-  margin-left: 8px;
+.button--with-icon {
+  .button__text {
+    margin-left: 8px;
+  }
 }
 
 .icon {
@@ -51,6 +53,16 @@
     background-color: rgba($red, 0.8);
   }
 }
+
+.dark-gray {
+  color: #fff;
+  background-color: $dark-gray;
+
+  &:hover {
+    background-color: rgba($dark-gray, 0.8);
+  }
+}
+
 .transparent {
   background-color: transparent;
 }
