@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import classes from 'classnames';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTimes, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'components/FormControls/Button/Button';
 import { Textarea } from 'components/FormControls/Textarea/Textarea';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,30 +15,36 @@ Column.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   title: PropTypes.string,
   cards: PropTypes.arrayOf(PropTypes.object),
+  onDeleteList: PropTypes.func.isRequired,
   onAddCard: PropTypes.func.isRequired,
 };
 Column.defaultProps = {
   cards: [],
 };
 
-function Column({ id, title, cards, onAddCard }) {
+function Column({ id, title, cards, onDeleteList, onAddCard }) {
   const column = useSelector((state) => state.tasks.entities[id]);
   const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
+  const isListDeleting = useSelector(
+    (state) => state.tasks.deletingListLoaders[id]
+  );
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
   const dispatch = useDispatch();
   const cardTextareaRef = useRef();
   const columnCardsRef = useRef();
 
   useEffect(() => {
-    if (!isStartedCreatingCard || !cardTextareaRef.current) return;
+    const textareaElement = cardTextareaRef.current;
 
-    cardTextareaRef.current.addEventListener('keypress', handleTextArea);
+    if (!isStartedCreatingCard || !textareaElement) return;
+
+    textareaElement.addEventListener('keypress', handleTextArea);
 
     // eslint-disable-next-line
     return () => {
-      if (!cardTextareaRef.current) return;
+      if (!textareaElement) return;
 
-      cardTextareaRef.current.removeEventListener('keypress', handleTextArea);
+      textareaElement.removeEventListener('keypress', handleTextArea);
     };
   }, [cardTextareaRef, isStartedCreatingCard, newCardTitle]);
 
@@ -73,6 +79,10 @@ function Column({ id, title, cards, onAddCard }) {
     );
   }
 
+  function onDelList() {
+    onDeleteList(id);
+  }
+
   function onCreateCard() {
     if (!newCardTitle.trim().length) return;
     onAddCard({
@@ -86,6 +96,14 @@ function Column({ id, title, cards, onAddCard }) {
       {title && (
         <div className={styles.column__header}>
           <ColumnTitle>{title}</ColumnTitle>
+          <Button
+            displayType="icon"
+            className={styles['column__delete-list-btn']}
+            onClick={onDelList}
+            loading={isListDeleting}
+            color="red"
+            icon={<FontAwesomeIcon icon={faTrashAlt} />}
+          />
         </div>
       )}
 

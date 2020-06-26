@@ -19,6 +19,11 @@ class Dashboard extends Component {
     startCreateCard(payload);
   };
 
+  onDeleteList = (listId) => {
+    const { startDeletingList } = this.props;
+    startDeletingList(listId);
+  };
+
   onAddList = (title) => {
     const { startCreateList } = this.props;
     startCreateList({ title });
@@ -30,8 +35,9 @@ class Dashboard extends Component {
       <div className={classes(styles.dashboard, 'dashboard-page')}>
         <Columns
           columns={tasks}
-          onAddCard={this.onAddCard}
           onAddList={this.onAddList}
+          onDeleteList={this.onDeleteList}
+          onAddCard={this.onAddCard}
         />
       </div>
     );
@@ -42,6 +48,7 @@ Dashboard.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.object),
   getTasks: PropTypes.func.isRequired,
   startCreateList: PropTypes.func.isRequired,
+  startDeletingList: PropTypes.func.isRequired,
   startCreateCard: PropTypes.func.isRequired,
 };
 
@@ -56,6 +63,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getTasks: () => dispatch(TasksActions.getTasks()),
   startCreateList: (title) => dispatch(TasksActions.startCreateList(title)),
+  startDeletingList: (listId) => dispatch(TasksActions.startDeletingList(listId)),
   startCreateCard: (payload) => dispatch(TasksActions.startCreateCard(payload)),
 });
 

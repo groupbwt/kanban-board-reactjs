@@ -27,7 +27,9 @@ function* createCard(action) {
     })
   );
 
-  const dashboardElement = document.querySelector( `.dashboard__column-${action.payload.listId}-cards`);
+  const dashboardElement = document.querySelector(
+    `.dashboard__column-${action.payload.listId}-cards`
+  );
   if (!dashboardElement) return;
   dashboardElement.scrollTop = dashboardElement.scrollHeight;
 }
@@ -47,8 +49,17 @@ function* createList(action) {
   dashboardElement.scrollLeft = dashboardElement.scrollWidth;
 }
 
+function* deleteList(action) {
+  yield delay(800);
+  yield put(TasksActions.deletedList(action.payload));
+}
+
 export function* watchCreateList() {
   yield takeEvery(TasksActions.startCreateList.toString(), createList);
+}
+
+export function* watchDeleteList() {
+  yield takeEvery(TasksActions.startDeletingList.toString(), deleteList);
 }
 
 export function* watchCreateCard() {
@@ -60,5 +71,10 @@ export function* watchGetTasks() {
 }
 
 export function* watchersTasks() {
-  yield all([watchCreateCard(), watchGetTasks(), watchCreateList()]);
+  yield all([
+    watchCreateCard(),
+    watchDeleteList(),
+    watchGetTasks(),
+    watchCreateList(),
+  ]);
 }

@@ -37,12 +37,13 @@ function Button({
         [className]: !!className,
         [styles.icon]: displayType === 'icon',
         [styles.green]: color === 'green',
+        [styles.red]: color === 'red',
         [styles.transparent]: color === 'transparent',
         [styles.loading]: loading,
       })}
       {...restProps}
     >
-      <div className={styles.button__content}>
+      <div>
         {icon && <span className={styles.button__icon}>{icon}</span>}
         {displayType !== 'icon' && (
           <>

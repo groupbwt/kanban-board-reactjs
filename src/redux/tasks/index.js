@@ -6,6 +6,7 @@ const tasksAdapter = createEntityAdapter({});
 const initialState = {
   newListTitle: '',
   newCardTitles: {},
+  deletingListLoaders: {},
   isLoading: false,
   isLoadingNewList: false,
 };
@@ -31,6 +32,13 @@ const tasksSlice = createSlice({
       tasksAdapter.addOne(state, action.payload);
       state.newListTitle = '';
       state.isLoadingNewList = false;
+    },
+    startDeletingList(state, action) {
+      state.deletingListLoaders[action.payload] = true;
+    },
+    deletedList(state, action) {
+      tasksAdapter.removeOne(state, action.payload);
+      delete state.deletingListLoaders[action.listId];
     },
     onChangeNewListTitle(state, action) {
       state.newListTitle = action.payload;
