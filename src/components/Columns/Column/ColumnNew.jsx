@@ -27,6 +27,7 @@ function ColumnNew({ toggleStartedCreatingColumn, onAddList }) {
 
   function handleAddList(e) {
     e.preventDefault();
+    if (!newListTitle.trim().length) return;
 
     onAddList(newListTitle);
   }

@@ -14,14 +14,25 @@ class Dashboard extends Component {
     getTasks();
   }
 
+  onAddList = (title) => {
+    const { startCreateList } = this.props;
+    startCreateList({ title });
+  };
+
+  onDeleteList = (listId) => {
+    const { startDeletingList } = this.props;
+    startDeletingList(listId);
+  };
+
   onAddCard = (payload) => {
     const { startCreateCard } = this.props;
     startCreateCard(payload);
   };
 
-  onAddList = (title) => {
-    const { startCreateList } = this.props;
-    startCreateList({ title });
+  onDeleteCard = (listId, cardId) => {
+    const { startDeletingCard } = this.props;
+
+    startDeletingCard({ listId, cardId });
   };
 
   render() {
@@ -30,8 +41,10 @@ class Dashboard extends Component {
       <div className={classes(styles.dashboard, 'dashboard-page')}>
         <Columns
           columns={tasks}
-          onAddCard={this.onAddCard}
           onAddList={this.onAddList}
+          onDeleteList={this.onDeleteList}
+          onAddCard={this.onAddCard}
+          onDeleteCard={this.onDeleteCard}
         />
       </div>
     );
@@ -42,7 +55,9 @@ Dashboard.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.object),
   getTasks: PropTypes.func.isRequired,
   startCreateList: PropTypes.func.isRequired,
+  startDeletingList: PropTypes.func.isRequired,
   startCreateCard: PropTypes.func.isRequired,
+  startDeletingCard: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -56,7 +71,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getTasks: () => dispatch(TasksActions.getTasks()),
   startCreateList: (title) => dispatch(TasksActions.startCreateList(title)),
+  startDeletingList: (listId) =>
+    dispatch(TasksActions.startDeletingList(listId)),
   startCreateCard: (payload) => dispatch(TasksActions.startCreateCard(payload)),
+  startDeletingCard: (payload) =>
+    dispatch(TasksActions.startDeletingCard(payload)),
 });
 
 export default connect(

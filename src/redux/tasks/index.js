@@ -8,6 +8,8 @@ const initialState = {
   newCardTitles: {},
   isLoading: false,
   isLoadingNewList: false,
+  isDeletingCard: false,
+  isDeletingList: false,
 };
 
 const tasksSlice = createSlice({
@@ -32,6 +34,13 @@ const tasksSlice = createSlice({
       state.newListTitle = '';
       state.isLoadingNewList = false;
     },
+    startDeletingList(state) {
+      state.isDeletingList = true;
+    },
+    deletedList(state, action) {
+      tasksAdapter.removeOne(state, action.payload);
+      state.isDeletingList = false;
+    },
     onChangeNewListTitle(state, action) {
       state.newListTitle = action.payload;
     },
@@ -43,6 +52,26 @@ const tasksSlice = createSlice({
       state.entities[listId].isCreatingCard = false;
       state.newCardTitles[listId] = '';
       state.entities[listId].cards.push(card);
+    },
+    startDeletingCard(state) {
+      state.isDeletingCard = true;
+    },
+    deletedCard(state, action) {
+      const { listId, cardId } = action.payload;
+      const updatedList = tasksAdapter.getSelectors().selectById(state, listId);
+      const updatedCards = updatedList.cards;
+      const deletedCardIdx = updatedCards.findIndex(
+        (card) => card.id === cardId
+      );
+      if (deletedCardIdx > -1) {
+        updatedList.cards.splice(deletedCardIdx, 1);
+      }
+
+      tasksAdapter.updateOne(state, {
+        id: listId,
+        cards: updatedCards,
+      });
+      state.isDeletingCard = false;
     },
     onChangeNewCardTitle(state, action) {
       const { listId, value = '' } = action.payload;
