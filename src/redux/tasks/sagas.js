@@ -1,4 +1,4 @@
-import { put, call, all, takeEvery, delay } from 'redux-saga/effects';
+import { put, call, takeEvery, delay } from 'redux-saga/effects';
 import { v4 as uuidv4 } from 'uuid';
 import { TasksActions } from './index';
 
@@ -54,27 +54,15 @@ function* deleteList(action) {
   yield put(TasksActions.deletedList(action.payload));
 }
 
-export function* watchCreateList() {
-  yield takeEvery(TasksActions.startCreateList.toString(), createList);
-}
-
-export function* watchDeleteList() {
-  yield takeEvery(TasksActions.startDeletingList.toString(), deleteList);
-}
-
-export function* watchCreateCard() {
-  yield takeEvery(TasksActions.startCreateCard.toString(), createCard);
-}
-
-export function* watchGetTasks() {
-  yield takeEvery(TasksActions.getTasks.toString(), getTasks);
+function* deleteCard(action) {
+  yield delay(800);
+  yield put(TasksActions.deletedCard(action.payload));
 }
 
 export function* watchersTasks() {
-  yield all([
-    watchCreateCard(),
-    watchDeleteList(),
-    watchGetTasks(),
-    watchCreateList(),
-  ]);
+  yield takeEvery(TasksActions.getTasks.toString(), getTasks);
+  yield takeEvery(TasksActions.startCreateList.toString(), createList);
+  yield takeEvery(TasksActions.startDeletingList.toString(), deleteList);
+  yield takeEvery(TasksActions.startCreateCard.toString(), createCard);
+  yield takeEvery(TasksActions.startDeletingCard.toString(), deleteCard);
 }

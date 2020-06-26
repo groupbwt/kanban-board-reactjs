@@ -14,9 +14,9 @@ class Dashboard extends Component {
     getTasks();
   }
 
-  onAddCard = (payload) => {
-    const { startCreateCard } = this.props;
-    startCreateCard(payload);
+  onAddList = (title) => {
+    const { startCreateList } = this.props;
+    startCreateList({ title });
   };
 
   onDeleteList = (listId) => {
@@ -24,9 +24,15 @@ class Dashboard extends Component {
     startDeletingList(listId);
   };
 
-  onAddList = (title) => {
-    const { startCreateList } = this.props;
-    startCreateList({ title });
+  onAddCard = (payload) => {
+    const { startCreateCard } = this.props;
+    startCreateCard(payload);
+  };
+
+  onDeleteCard = (listId, cardId) => {
+    const { startDeletingCard } = this.props;
+
+    startDeletingCard({ listId, cardId });
   };
 
   render() {
@@ -38,6 +44,7 @@ class Dashboard extends Component {
           onAddList={this.onAddList}
           onDeleteList={this.onDeleteList}
           onAddCard={this.onAddCard}
+          onDeleteCard={this.onDeleteCard}
         />
       </div>
     );
@@ -50,6 +57,7 @@ Dashboard.propTypes = {
   startCreateList: PropTypes.func.isRequired,
   startDeletingList: PropTypes.func.isRequired,
   startCreateCard: PropTypes.func.isRequired,
+  startDeletingCard: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -63,8 +71,11 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getTasks: () => dispatch(TasksActions.getTasks()),
   startCreateList: (title) => dispatch(TasksActions.startCreateList(title)),
-  startDeletingList: (listId) => dispatch(TasksActions.startDeletingList(listId)),
+  startDeletingList: (listId) =>
+    dispatch(TasksActions.startDeletingList(listId)),
   startCreateCard: (payload) => dispatch(TasksActions.startCreateCard(payload)),
+  startDeletingCard: (payload) =>
+    dispatch(TasksActions.startDeletingCard(payload)),
 });
 
 export default connect(

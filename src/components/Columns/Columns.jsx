@@ -10,12 +10,19 @@ Columns.propTypes = {
   onAddList: PropTypes.func.isRequired,
   onDeleteList: PropTypes.func.isRequired,
   onAddCard: PropTypes.func.isRequired,
+  onDeleteCard: PropTypes.func.isRequired,
 };
 Columns.defaultProps = {
   columns: [],
 };
 
-function Columns({ columns, onAddList, onDeleteList, onAddCard }) {
+function Columns({
+  columns,
+  onAddList,
+  onDeleteList,
+  onAddCard,
+  onDeleteCard,
+}) {
   const [isStartedCreatingColumn, setIsStartedCreatingColumn] = useState(false);
 
   function toggleStartedCreatingColumn() {
@@ -32,6 +39,7 @@ function Columns({ columns, onAddList, onDeleteList, onAddCard }) {
           title={column.title}
           onAddCard={onAddCard}
           onDeleteList={onDeleteList}
+          onDeleteCard={onDeleteCard}
         />
       ))}
       {isStartedCreatingColumn && (

@@ -12,17 +12,18 @@ import { ColumnCards } from '../ColumnCards/ColumnCards';
 import styles from './Column.module.scss';
 
 Column.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   title: PropTypes.string,
   cards: PropTypes.arrayOf(PropTypes.object),
   onDeleteList: PropTypes.func.isRequired,
   onAddCard: PropTypes.func.isRequired,
+  onDeleteCard: PropTypes.func.isRequired,
 };
 Column.defaultProps = {
   cards: [],
 };
 
-function Column({ id, title, cards, onDeleteList, onAddCard }) {
+function Column({ id, title, cards, onDeleteList, onAddCard, onDeleteCard }) {
   const column = useSelector((state) => state.tasks.entities[id]);
   const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
   const isListDeleting = useSelector(
@@ -114,7 +115,8 @@ function Column({ id, title, cards, onDeleteList, onAddCard }) {
           `dashboard__column-${id}-cards`
         )}
       >
-        <ColumnCards cards={cards} />
+        <ColumnCards cards={cards} id={id} onDeleteCard={onDeleteCard} />
+
         {isStartedCreatingCard && (
           <Textarea
             inputRef={cardTextareaRef}

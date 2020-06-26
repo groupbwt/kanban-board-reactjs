@@ -9,6 +9,7 @@ const initialState = {
   deletingListLoaders: {},
   isLoading: false,
   isLoadingNewList: false,
+  isDeletingCard: false,
 };
 
 const tasksSlice = createSlice({
@@ -51,6 +52,26 @@ const tasksSlice = createSlice({
       state.entities[listId].isCreatingCard = false;
       state.newCardTitles[listId] = '';
       state.entities[listId].cards.push(card);
+    },
+    startDeletingCard(state) {
+      state.isDeletingCard = true;
+    },
+    deletedCard(state, action) {
+      const { listId, cardId } = action.payload;
+      const updatedList = tasksAdapter.getSelectors().selectById(state, listId);
+      const updatedCards = updatedList.cards;
+      const deletedCardIdx = updatedCards.findIndex(
+        (card) => card.id === cardId
+      );
+      if (deletedCardIdx > -1) {
+        updatedList.cards.splice(deletedCardIdx, 1);
+      }
+
+      tasksAdapter.updateOne(state, {
+        id: listId,
+        cards: updatedCards,
+      });
+      state.isDeletingCard = false;
     },
     onChangeNewCardTitle(state, action) {
       const { listId, value = '' } = action.payload;
