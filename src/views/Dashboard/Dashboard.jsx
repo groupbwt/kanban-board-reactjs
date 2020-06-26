@@ -35,6 +35,11 @@ class Dashboard extends Component {
     startDeletingCard({ listId, cardId });
   };
 
+  onChangeCardOrder = (payload) => {
+    const { onChangeCardOrder } = this.props;
+    onChangeCardOrder(payload);
+  };
+
   render() {
     const { tasks } = this.props;
     return (
@@ -45,6 +50,7 @@ class Dashboard extends Component {
           onDeleteList={this.onDeleteList}
           onAddCard={this.onAddCard}
           onDeleteCard={this.onDeleteCard}
+          onChangeCardOrder={this.onChangeCardOrder}
         />
       </div>
     );
@@ -58,6 +64,7 @@ Dashboard.propTypes = {
   startDeletingList: PropTypes.func.isRequired,
   startCreateCard: PropTypes.func.isRequired,
   startDeletingCard: PropTypes.func.isRequired,
+  onChangeCardOrder: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -76,6 +83,8 @@ const mapDispatchToProps = (dispatch) => ({
   startCreateCard: (payload) => dispatch(TasksActions.startCreateCard(payload)),
   startDeletingCard: (payload) =>
     dispatch(TasksActions.startDeletingCard(payload)),
+  onChangeCardOrder: (payload) =>
+    dispatch(TasksActions.changeCardOrder(payload)),
 });
 
 export default connect(

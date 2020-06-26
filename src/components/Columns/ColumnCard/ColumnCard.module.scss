@@ -10,15 +10,16 @@
   background-color: #ffffff;
   box-shadow: 0 1px 4px rgba(9, 45, 66, 0.25);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s, transform 0.3s ease;
 
   &:hover {
     background-color: rgba(#000, 0.08);
   }
+}
 
-  &:first-child {
-    margin-top: 0;
-  }
+.card--is-dragging {
+  transition: transform 0.3s ease;
+  transform: rotate(5deg);
 }
 
 .card__delete-btn {

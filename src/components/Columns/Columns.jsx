@@ -11,6 +11,7 @@ Columns.propTypes = {
   onDeleteList: PropTypes.func.isRequired,
   onAddCard: PropTypes.func.isRequired,
   onDeleteCard: PropTypes.func.isRequired,
+  onChangeCardOrder: PropTypes.func.isRequired,
 };
 Columns.defaultProps = {
   columns: [],
@@ -22,6 +23,7 @@ function Columns({
   onDeleteList,
   onAddCard,
   onDeleteCard,
+  onChangeCardOrder,
 }) {
   const [isStartedCreatingColumn, setIsStartedCreatingColumn] = useState(false);
 
@@ -40,6 +42,7 @@ function Columns({
           onAddCard={onAddCard}
           onDeleteList={onDeleteList}
           onDeleteCard={onDeleteCard}
+          onChangeCardOrder={onChangeCardOrder}
         />
       ))}
       {isStartedCreatingColumn && (

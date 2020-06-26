@@ -77,6 +77,33 @@ const tasksSlice = createSlice({
       const { listId, value = '' } = action.payload;
       state.newCardTitles[listId] = value;
     },
+    changeCardOrder() {},
+    changedCardOrder(state, action) {
+      const { listId, cardId, order } = action.payload;
+
+      const updatedList = tasksAdapter.getSelectors().selectById(state, listId);
+      const updatedCards = updatedList.cards;
+      const updatedCard = updatedCards.find((card) => card.id === cardId);
+      if (updatedCard) {
+        updatedCard.order = order;
+      }
+
+      const sortedCards = updatedCards.sort((a, b) => {
+        if (a.order > b.order) {
+          return -1;
+        }
+        if (a.order < b.order) {
+          return 1;
+        }
+        // a должно быть равным b
+        return 0;
+      });
+
+      tasksAdapter.updateOne(state, {
+        id: listId,
+        cards: sortedCards,
+      });
+    },
   },
 });
 

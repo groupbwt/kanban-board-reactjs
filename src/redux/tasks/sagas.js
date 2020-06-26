@@ -59,10 +59,15 @@ function* deleteCard(action) {
   yield put(TasksActions.deletedCard(action.payload));
 }
 
+function* changeCardOrder(action) {
+  yield put(TasksActions.changedCardOrder(action.payload));
+}
+
 export function* watchersTasks() {
   yield takeEvery(TasksActions.getTasks.toString(), getTasks);
   yield takeEvery(TasksActions.startCreateList.toString(), createList);
   yield takeEvery(TasksActions.startDeletingList.toString(), deleteList);
   yield takeEvery(TasksActions.startCreateCard.toString(), createCard);
   yield takeEvery(TasksActions.startDeletingCard.toString(), deleteCard);
+  yield takeEvery(TasksActions.changeCardOrder.toString(), changeCardOrder);
 }
