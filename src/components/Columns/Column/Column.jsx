@@ -73,12 +73,12 @@ function Column({ id, title, cards }) {
 
         {isStartedCreatingCard && (
           <Textarea
-            className={styles.column__textarea}
             value={newCardTitle}
             onChange={onChangeNewCardValue}
             placeholder="Enter a title for this card..."
             minRows={3}
             maxRows={7}
+            autoFocus
           />
         )}
       </div>
