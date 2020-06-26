@@ -22,10 +22,9 @@ function ColumnCards({ id, cards, onDeleteCard }) {
           key={card.id}
           id={card.id}
           listId={id}
+          title={card.title}
           onDeleteCard={onDeleteCard}
-        >
-          {card.title}
-        </ColumnCard>
+        />
       ))}
     </ul>
   );

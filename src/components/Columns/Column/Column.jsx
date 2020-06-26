@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import classes from 'classnames';
 import PropTypes from 'prop-types';
+import { TasksActions } from 'redux/tasks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'components/FormControls/Button/Button';
 import { Textarea } from 'components/FormControls/Textarea/Textarea';
-import { useDispatch, useSelector } from 'react-redux';
-import { TasksActions } from 'redux/tasks';
+import { DeleteModal } from 'components/Columns/DeleteModal/DeleteModal';
 import { ColumnTitle } from '../ColumnTitle/ColumnTitle';
 import { ColumnCards } from '../ColumnCards/ColumnCards';
 import styles from './Column.module.scss';
@@ -26,10 +27,9 @@ Column.defaultProps = {
 function Column({ id, title, cards, onDeleteList, onAddCard, onDeleteCard }) {
   const column = useSelector((state) => state.tasks.entities[id]);
   const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
-  const isListDeleting = useSelector(
-    (state) => state.tasks.deletingListLoaders[id]
-  );
+  const isListDeleting = useSelector((state) => state.tasks.isDeletingList);
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
+  const [isStartedDeletingList, setIsStartedDeletingList] = useState(false);
   const dispatch = useDispatch();
   const cardTextareaRef = useRef();
   const columnCardsRef = useRef();
@@ -54,6 +54,10 @@ function Column({ id, title, cards, onDeleteList, onAddCard, onDeleteCard }) {
       e.preventDefault();
       onCreateCard();
     }
+  }
+
+  function toggleStartDeletingList() {
+    setIsStartedDeletingList((prevState) => !prevState);
   }
 
   function toggleStartCreatCard() {
@@ -93,75 +97,86 @@ function Column({ id, title, cards, onDeleteList, onAddCard, onDeleteCard }) {
   }
 
   return (
-    <div className={styles.column}>
-      {title && (
-        <div className={styles.column__header}>
-          <ColumnTitle>{title}</ColumnTitle>
-          <Button
-            displayType="icon"
-            className={styles['column__delete-list-btn']}
-            onClick={onDelList}
-            loading={isListDeleting}
-            color="red"
-            icon={<FontAwesomeIcon icon={faTrashAlt} />}
-          />
-        </div>
-      )}
-
-      <div
-        ref={columnCardsRef}
-        className={classes(
-          styles.column__cards,
-          `dashboard__column-${id}-cards`
-        )}
-      >
-        <ColumnCards cards={cards} id={id} onDeleteCard={onDeleteCard} />
-
-        {isStartedCreatingCard && (
-          <Textarea
-            inputRef={cardTextareaRef}
-            value={newCardTitle}
-            onChange={onChangeNewCardValue}
-            placeholder="Enter a title for this card..."
-            minRows={3}
-            maxRows={7}
-            autoFocus
-          />
-        )}
-      </div>
-      <div className={styles.column__buttons}>
-        {isStartedCreatingCard && (
-          <>
-            <Button
-              className={styles['column__btn--create']}
-              onClick={onCreateCard}
-              loading={column.isCreatingCard}
-              color="green"
-              icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
-            >
-              Add Card
-            </Button>
+    <>
+      <div className={styles.column}>
+        {title && (
+          <div className={styles.column__header}>
+            <ColumnTitle>{title}</ColumnTitle>
             <Button
               displayType="icon"
-              onClick={toggleStartCreatCard}
-              className={styles['column__btn--cancel']}
-              color="transparent"
-              disabled={column.isCreatingCard}
-              icon={<FontAwesomeIcon icon={faTimes} size="lg" />}
+              className={styles['column__delete-list-btn']}
+              onClick={toggleStartDeletingList}
+              color="red"
+              icon={<FontAwesomeIcon icon={faTrashAlt} />}
             />
-          </>
+          </div>
         )}
-        {!isStartedCreatingCard && (
-          <Button
-            onClick={toggleStartCreatCard}
-            className={styles.column__btn}
-            icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
-          >
-            Add a card
-          </Button>
-        )}
+
+        <div
+          ref={columnCardsRef}
+          className={classes(
+            styles.column__cards,
+            `dashboard__column-${id}-cards`
+          )}
+        >
+          <ColumnCards cards={cards} id={id} onDeleteCard={onDeleteCard} />
+
+          {isStartedCreatingCard && (
+            <Textarea
+              inputRef={cardTextareaRef}
+              value={newCardTitle}
+              onChange={onChangeNewCardValue}
+              placeholder="Enter a title for this card..."
+              minRows={3}
+              maxRows={7}
+              autoFocus
+            />
+          )}
+        </div>
+        <div className={styles.column__buttons}>
+          {isStartedCreatingCard && (
+            <>
+              <Button
+                className={styles['column__btn--create']}
+                onClick={onCreateCard}
+                loading={column.isCreatingCard}
+                color="green"
+                icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
+              >
+                Add Card
+              </Button>
+              <Button
+                displayType="icon"
+                onClick={toggleStartCreatCard}
+                className={styles['column__btn--cancel']}
+                color="transparent"
+                disabled={column.isCreatingCard}
+                icon={<FontAwesomeIcon icon={faTimes} size="lg" />}
+              />
+            </>
+          )}
+          {!isStartedCreatingCard && (
+            <Button
+              onClick={toggleStartCreatCard}
+              className={styles.column__btn}
+              icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
+            >
+              Add a card
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
+
+      {isStartedDeletingList && (
+        <DeleteModal
+          title={title}
+          maxWidth={400}
+          isDeleting={isListDeleting}
+          onDelete={onDelList}
+          onCancel={toggleStartDeletingList}
+        />
+      )}
+    </>
   );
 }
 
