@@ -26,6 +26,10 @@ function* createCard(action) {
       },
     })
   );
+
+  const dashboardElement = document.querySelector( `.dashboard__column-${action.payload.listId}-cards`);
+  if (!dashboardElement) return;
+  dashboardElement.scrollTop = dashboardElement.scrollHeight;
 }
 
 function* createList(action) {
@@ -37,6 +41,10 @@ function* createList(action) {
       cards: [],
     })
   );
+
+  const dashboardElement = document.querySelector('.dashboard-page');
+  if (!dashboardElement) return;
+  dashboardElement.scrollLeft = dashboardElement.scrollWidth;
 }
 
 export function* watchCreateList() {

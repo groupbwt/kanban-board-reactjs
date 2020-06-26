@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import classes from 'classnames';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +26,28 @@ function Column({ id, title, cards, onAddCard }) {
   const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
   const dispatch = useDispatch();
+  const cardTextareaRef = useRef();
+  const columnCardsRef = useRef();
+
+  useEffect(() => {
+    if (!isStartedCreatingCard || !cardTextareaRef.current) return;
+
+    cardTextareaRef.current.addEventListener('keypress', handleTextArea);
+
+    // eslint-disable-next-line
+    return () => {
+      if (!cardTextareaRef.current) return;
+
+      cardTextareaRef.current.removeEventListener('keypress', handleTextArea);
+    };
+  }, [cardTextareaRef, isStartedCreatingCard, newCardTitle]);
+
+  function handleTextArea(e) {
+    if (e && Number(e.which) === 13) {
+      e.preventDefault();
+      onCreateCard();
+    }
+  }
 
   function toggleStartCreatCard() {
     if (!isStartedCreatingCard) {
@@ -66,11 +89,17 @@ function Column({ id, title, cards, onAddCard }) {
         </div>
       )}
 
-      <div className={styles.column__cards}>
+      <div
+        ref={columnCardsRef}
+        className={classes(
+          styles.column__cards,
+          `dashboard__column-${id}-cards`
+        )}
+      >
         <ColumnCards cards={cards} />
-
         {isStartedCreatingCard && (
           <Textarea
+            inputRef={cardTextareaRef}
             value={newCardTitle}
             onChange={onChangeNewCardValue}
             placeholder="Enter a title for this card..."

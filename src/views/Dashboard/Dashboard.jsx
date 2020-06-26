@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classes from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectSaga } from 'redux-injectors';
@@ -26,7 +27,7 @@ class Dashboard extends Component {
   render() {
     const { tasks } = this.props;
     return (
-      <div className={styles.dashboard}>
+      <div className={classes(styles.dashboard, 'dashboard-page')}>
         <Columns
           columns={tasks}
           onAddCard={this.onAddCard}
