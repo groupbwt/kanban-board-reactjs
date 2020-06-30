@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classes from 'classnames';
@@ -68,4 +68,10 @@ function ColumnCard({ index, id, listId, title, onDeleteCard }) {
   );
 }
 
-export { ColumnCard };
+const memoizedComponent = memo(ColumnCard, function (oldProps, newProps) {
+  const isNotChangedIndex = oldProps.index === newProps.index;
+
+  return isNotChangedIndex;
+});
+
+export { memoizedComponent as ColumnCard };

@@ -139,7 +139,11 @@ const tasksSlice = createSlice({
 
         const startReorderingFromList = fromOrder;
         const endReorderingFromList = fromUpdatedCards.length - 1;
-        for (let i = startReorderingFromList; i <= endReorderingFromList; i += 1) {
+        for (
+          let i = startReorderingFromList;
+          i <= endReorderingFromList;
+          i += 1
+        ) {
           const card = fromUpdatedCards[i];
           card.order = i;
         }
@@ -155,6 +159,31 @@ const tasksSlice = createSlice({
           },
         ]);
       }
+    },
+    changeListOrder() {},
+    changedListOrder(state, action) {
+      const { listId, toOrder, fromOrder } = action.payload;
+      const entities = tasksAdapter.getSelectors().selectEntities(state);
+      const ids = tasksAdapter.getSelectors().selectIds(state);
+      const updatedList = tasksAdapter.getSelectors().selectById(state, listId);
+
+      ids.splice(fromOrder, 1);
+      ids.splice(toOrder, 0, listId);
+
+      const startReordering = toOrder > updatedList.order ? fromOrder : toOrder;
+      const endReordering = toOrder > updatedList.order ? toOrder : fromOrder;
+      const updatedEntities = [];
+
+      for (let i = startReordering; i <= endReordering; i += 1) {
+        const id = ids[i];
+        const list = entities[id];
+
+        list.order = i;
+        updatedEntities.push(list);
+      }
+      updatedList.order = toOrder;
+
+      tasksAdapter.updateMany(state, updatedEntities);
     },
   },
 });
