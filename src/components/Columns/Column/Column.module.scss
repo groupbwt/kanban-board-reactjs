@@ -33,7 +33,13 @@
   position: absolute;
   right: 8px;
   top: 22px;
+  opacity: 0.5;
   transform: translateY(-50%);
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .column__headerInput {
