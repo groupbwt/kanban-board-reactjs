@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classes from 'classnames';
 import PropTypes from 'prop-types';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 import { TasksActions } from 'redux/tasks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +20,6 @@ Column.propTypes = {
   onDeleteList: PropTypes.func.isRequired,
   onAddCard: PropTypes.func.isRequired,
   onDeleteCard: PropTypes.func.isRequired,
-  onChangeCardOrder: PropTypes.func.isRequired,
 };
 Column.defaultProps = {
   cards: [],
@@ -33,7 +32,6 @@ function Column({
   onDeleteList,
   onAddCard,
   onDeleteCard,
-  onChangeCardOrder,
 }) {
   const column = useSelector((state) => state.tasks.entities[id]);
   const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
@@ -106,32 +104,6 @@ function Column({
     });
   }
 
-  function onDragCardEnd(result) {
-    const { destination, source, draggableId } = result;
-
-    if (!destination) {
-      return;
-    }
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    const listId = source.droppableId;
-    const toOrder = destination.index;
-    const fromOrder = source.index;
-
-    onChangeCardOrder({
-      listId,
-      cardId: draggableId,
-      toOrder,
-      fromOrder,
-    });
-  }
-
   return (
     <>
       <div className={styles.column}>
@@ -155,22 +127,24 @@ function Column({
             `dashboard__column-${id}-cards`
           )}
         >
-          <DragDropContext onDragEnd={onDragCardEnd}>
-            <Droppable droppableId={id}>
-              {(provided) => (
-                <>
-                  <ColumnCards
-                    cards={cards}
-                    id={id}
-                    onDeleteCard={onDeleteCard}
-                    {...provided.droppableProps}
-                    innerRef={provided.innerRef}
-                  />
-                  {provided.placeholder}
-                </>
-              )}
-            </Droppable>
-          </DragDropContext>
+          <Droppable droppableId={id}>
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                className={classes({
+                  is: !!snapshot.isDraggingOver,
+                })}
+                {...provided.droppableProps}
+              >
+                <ColumnCards
+                  id={id}
+                  cards={cards}
+                  onDeleteCard={onDeleteCard}
+                />
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
 
           {isStartedCreatingCard && (
             <Textarea

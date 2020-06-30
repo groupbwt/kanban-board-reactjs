@@ -94,26 +94,67 @@ const tasksSlice = createSlice({
     },
     changeCardOrder() {},
     changedCardOrder(state, action) {
-      const { listId, cardId, toOrder, fromOrder } = action.payload;
-      const updatedList = tasksAdapter.getSelectors().selectById(state, listId);
-      const updatedCards = updatedList.cards;
-      const updatedCard = updatedCards.find((card) => card.id === cardId);
-      const startReordering = updatedCard.order > toOrder ? toOrder : fromOrder;
-      const endReordering = updatedCard.order > toOrder ? fromOrder : toOrder;
+      const { cardId, toList, fromList, toOrder, fromOrder } = action.payload;
+      const toUpdatedList = tasksAdapter
+        .getSelectors()
+        .selectById(state, toList);
+      const fromUpdatedList = tasksAdapter
+        .getSelectors()
+        .selectById(state, fromList);
+      const toUpdatedCards = toUpdatedList.cards;
+      const fromUpdatedCards = fromUpdatedList.cards;
 
-      updatedCards.splice(fromOrder, 1);
-      updatedCards.splice(toOrder, 0, updatedCard);
+      if (toList === fromList) {
+        const updatedCard = toUpdatedCards.find((card) => card.id === cardId);
 
-      for (let i = startReordering; i <= endReordering; i += 1) {
-        const card = updatedCards[i];
-        card.order = i;
+        toUpdatedCards.splice(fromOrder, 1);
+        toUpdatedCards.splice(toOrder, 0, updatedCard);
+
+        const startReordering =
+          updatedCard.order > toOrder ? toOrder : fromOrder;
+        const endReordering = updatedCard.order > toOrder ? fromOrder : toOrder;
+        for (let i = startReordering; i <= endReordering; i += 1) {
+          const card = toUpdatedCards[i];
+          card.order = i;
+        }
+        updatedCard.order = toOrder;
+
+        tasksAdapter.updateOne(state, {
+          id: toList,
+          cards: fromUpdatedCards,
+        });
+      } else {
+        const updatedCard = fromUpdatedCards.find((card) => card.id === cardId);
+        updatedCard.order = toOrder;
+
+        fromUpdatedCards.splice(fromOrder, 1);
+        toUpdatedCards.splice(toOrder, 0, updatedCard);
+
+        const startReorderingToList = toOrder;
+        const endReorderingToList = toUpdatedCards.length - 1;
+        for (let i = startReorderingToList; i <= endReorderingToList; i += 1) {
+          const card = toUpdatedCards[i];
+          card.order = i;
+        }
+
+        const startReorderingFromList = fromOrder;
+        const endReorderingFromList = fromUpdatedCards.length - 1;
+        for (let i = startReorderingFromList; i <= endReorderingFromList; i += 1) {
+          const card = fromUpdatedCards[i];
+          card.order = i;
+        }
+
+        tasksAdapter.updateMany(state, [
+          {
+            id: toList,
+            cards: toUpdatedList,
+          },
+          {
+            id: fromList,
+            cards: fromUpdatedList,
+          },
+        ]);
       }
-      updatedCard.order = toOrder;
-
-      tasksAdapter.updateOne(state, {
-        id: listId,
-        cards: updatedCards,
-      });
     },
   },
 });
