@@ -4,7 +4,7 @@ import styles from './ColumnCards.module.scss';
 import { ColumnCard } from '../ColumnCard/ColumnCard';
 
 ColumnCards.propTypes = {
-  innerRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  innerRef: PropTypes.func,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   cards: PropTypes.arrayOf(PropTypes.object),
   onDeleteCard: PropTypes.func.isRequired,
