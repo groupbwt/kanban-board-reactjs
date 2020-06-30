@@ -1,5 +1,4 @@
 import { put, call, takeEvery, delay } from 'redux-saga/effects';
-import { v4 as uuidv4 } from 'uuid';
 import { TasksActions } from './index';
 
 function getTasksRequest() {
@@ -21,7 +20,6 @@ function* createCard(action) {
     TasksActions.createdCard({
       listId: action.payload.listId,
       card: {
-        id: uuidv4(),
         title: action.payload.title,
       },
     })
@@ -38,9 +36,7 @@ function* createList(action) {
   yield delay(800);
   yield put(
     TasksActions.createdList({
-      id: uuidv4(),
       title: action.payload.title,
-      cards: [],
     })
   );
 
