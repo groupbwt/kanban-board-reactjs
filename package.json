@@ -1,6 +1,5 @@
 {
   "name": "kanban-board-reactjs",
-  "homepage": "https://groupbwt.github.io/kanban-board-reactjs",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
