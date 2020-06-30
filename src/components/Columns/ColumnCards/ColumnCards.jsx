@@ -4,7 +4,6 @@ import styles from './ColumnCards.module.scss';
 import { ColumnCard } from '../ColumnCard/ColumnCard';
 
 ColumnCards.propTypes = {
-  innerRef: PropTypes.func,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   cards: PropTypes.arrayOf(PropTypes.object),
   onDeleteCard: PropTypes.func.isRequired,
@@ -13,11 +12,11 @@ ColumnCards.defaultProps = {
   cards: [],
 };
 
-function ColumnCards({ innerRef, id, cards, onDeleteCard }) {
+function ColumnCards({ id, cards, onDeleteCard }) {
   if (cards && !cards.length) return null;
 
   return (
-    <ul ref={innerRef} className={styles.cards}>
+    <ul className={styles.cards}>
       {cards.map((card, index) => (
         <ColumnCard
           key={card.id}
