@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classes from 'classnames';
 import PropTypes from 'prop-types';
@@ -35,9 +35,12 @@ function Column({
   onAddCard,
   onDeleteCard,
 }) {
-  const column = useSelector((state) => state.tasks.entities[id]);
-  const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
-  const isListDeleting = useSelector((state) => state.tasks.isDeletingList);
+  const column = useSelector(
+    (state) => state.tasks.entities[id],
+    (prevProp, nextProp) => prevProp.id === nextProp.id
+  );
+  const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id], (prevProp, nextProp) => prevProp === nextProp);
+  const isListDeleting = useSelector((state) => state.tasks.isDeletingList, (prevProp, nextProp) => prevProp === nextProp);
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
   const [isStartedDeletingList, setIsStartedDeletingList] = useState(false);
   const dispatch = useDispatch();
@@ -217,9 +220,9 @@ function Column({
 }
 
 const memoizedComponent = memo(Column, function (oldProps, newProps) {
-  const isNotChangedIndex = oldProps.index === newProps.index;
+  const isNotChangedOrder = oldProps.order === newProps.order;
 
-  return isNotChangedIndex;
+  return isNotChangedOrder;
 });
 
 export { memoizedComponent as Column };

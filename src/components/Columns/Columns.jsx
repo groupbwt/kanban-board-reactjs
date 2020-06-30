@@ -73,15 +73,15 @@ function Columns({
   function onDragCardEnd(result) {
     const { destination, source, draggableId } = result;
 
-    const toList = destination.droppableId;
-    const fromList = source.droppableId;
+    const toListId = destination.droppableId;
+    const fromListId = source.droppableId;
     const toOrder = destination.index;
     const fromOrder = source.index;
 
     onChangeCardOrder({
       cardId: draggableId,
-      toList,
-      fromList,
+      toListId,
+      fromListId,
       toOrder,
       fromOrder,
     });

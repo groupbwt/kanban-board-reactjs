@@ -69,9 +69,9 @@ function ColumnCard({ index, id, listId, title, onDeleteCard }) {
 }
 
 const memoizedComponent = memo(ColumnCard, function (oldProps, newProps) {
-  const isNotChangedIndex = oldProps.index === newProps.index;
+  const isNotChangedOrder = oldProps.order === newProps.order;
 
-  return isNotChangedIndex;
+  return isNotChangedOrder;
 });
 
 export { memoizedComponent as ColumnCard };

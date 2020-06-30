@@ -94,17 +94,17 @@ const tasksSlice = createSlice({
     },
     changeCardOrder() {},
     changedCardOrder(state, action) {
-      const { cardId, toList, fromList, toOrder, fromOrder } = action.payload;
+      const { cardId, toListId, fromListId, toOrder, fromOrder } = action.payload;
       const toUpdatedList = tasksAdapter
         .getSelectors()
-        .selectById(state, toList);
+        .selectById(state, toListId);
       const fromUpdatedList = tasksAdapter
         .getSelectors()
-        .selectById(state, fromList);
+        .selectById(state, fromListId);
       const toUpdatedCards = toUpdatedList.cards;
       const fromUpdatedCards = fromUpdatedList.cards;
 
-      if (toList === fromList) {
+      if (toListId === fromListId) {
         const updatedCard = toUpdatedCards.find((card) => card.id === cardId);
 
         toUpdatedCards.splice(fromOrder, 1);
@@ -120,8 +120,8 @@ const tasksSlice = createSlice({
         updatedCard.order = toOrder;
 
         tasksAdapter.updateOne(state, {
-          id: toList,
-          cards: fromUpdatedCards,
+          id: toListId,
+          cards: toUpdatedCards,
         });
       } else {
         const updatedCard = fromUpdatedCards.find((card) => card.id === cardId);
@@ -150,11 +150,11 @@ const tasksSlice = createSlice({
 
         tasksAdapter.updateMany(state, [
           {
-            id: toList,
+            id: toListId,
             cards: toUpdatedList,
           },
           {
-            id: fromList,
+            id: fromListId,
             cards: fromUpdatedList,
           },
         ]);
