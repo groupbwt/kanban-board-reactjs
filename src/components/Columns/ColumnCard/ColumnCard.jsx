@@ -1,5 +1,4 @@
 import React, { useState, memo } from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import classes from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
@@ -18,7 +17,6 @@ ColumnCard.propTypes = {
 };
 
 function ColumnCard({ index, id, listId, title, onDeleteCard }) {
-  const isDeleting = useSelector((state) => state.tasks.isDeletingCard);
   const [isInitedDelete, setIsInitedDelete] = useState(false);
 
   function toggleInitDelete() {
@@ -59,7 +57,6 @@ function ColumnCard({ index, id, listId, title, onDeleteCard }) {
       {isInitedDelete && (
         <DeleteModal
           title={title}
-          isDeleting={isDeleting}
           onDelete={onDelete}
           onCancel={toggleInitDelete}
         />
@@ -68,10 +65,10 @@ function ColumnCard({ index, id, listId, title, onDeleteCard }) {
   );
 }
 
-const memoizedComponent = memo(ColumnCard, function (oldProps, newProps) {
-  const isNotChangedIndex = oldProps.index === newProps.index;
+const memoizedComponent = memo(ColumnCard, (oldProps, newProps) => {
+  const isNotChangedOrder = oldProps.index === newProps.index;
 
-  return isNotChangedIndex;
+  return isNotChangedOrder;
 });
 
 export { memoizedComponent as ColumnCard };
