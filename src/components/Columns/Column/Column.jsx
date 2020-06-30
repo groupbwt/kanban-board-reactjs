@@ -121,12 +121,14 @@ function Column({
     }
 
     const listId = source.droppableId;
-    const newCardOrder = destination.index;
+    const toOrder = destination.index;
+    const fromOrder = source.index;
 
     onChangeCardOrder({
       listId,
       cardId: draggableId,
-      order: newCardOrder,
+      toOrder,
+      fromOrder,
     });
   }
 

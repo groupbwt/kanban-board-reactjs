@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 
 const tasksAdapter = createEntityAdapter({});
 
@@ -30,6 +31,9 @@ const tasksSlice = createSlice({
       state.isLoadingNewList = true;
     },
     createdList(state, action) {
+      const newList = action.payload;
+      newList.id = uuidv4();
+      newList.cards = [];
       tasksAdapter.addOne(state, action.payload);
       state.newListTitle = '';
       state.isLoadingNewList = false;
@@ -49,9 +53,20 @@ const tasksSlice = createSlice({
     },
     createdCard(state, action) {
       const { listId, card } = action.payload;
-      state.entities[listId].isCreatingCard = false;
+      const updatedList = tasksAdapter.getSelectors().selectById(state, listId);
+      const updatedCards = updatedList.cards;
+      const newCard = card;
+      newCard.id = uuidv4();
+      newCard.order = updatedList.cards.length;
+
+      updatedCards.push(newCard);
+
+      updatedList.isCreatingCard = false;
       state.newCardTitles[listId] = '';
-      state.entities[listId].cards.push(card);
+      tasksAdapter.updateOne(state, {
+        id: listId,
+        cards: updatedCards,
+      });
     },
     startDeletingCard(state) {
       state.isDeletingCard = true;
@@ -79,29 +94,25 @@ const tasksSlice = createSlice({
     },
     changeCardOrder() {},
     changedCardOrder(state, action) {
-      const { listId, cardId, order } = action.payload;
-
+      const { listId, cardId, toOrder, fromOrder } = action.payload;
       const updatedList = tasksAdapter.getSelectors().selectById(state, listId);
       const updatedCards = updatedList.cards;
       const updatedCard = updatedCards.find((card) => card.id === cardId);
-      if (updatedCard) {
-        updatedCard.order = order;
-      }
+      const startReordering = updatedCard.order > toOrder ? toOrder : fromOrder;
+      const endReordering = updatedCard.order > toOrder ? fromOrder : toOrder;
 
-      const sortedCards = updatedCards.sort((a, b) => {
-        if (a.order > b.order) {
-          return -1;
-        }
-        if (a.order < b.order) {
-          return 1;
-        }
-        // a должно быть равным b
-        return 0;
-      });
+      updatedCards.splice(fromOrder, 1);
+      updatedCards.splice(toOrder, 0, updatedCard);
+
+      for (let i = startReordering; i <= endReordering; i += 1) {
+        const card = updatedCards[i];
+        card.order = i;
+      }
+      updatedCard.order = toOrder;
 
       tasksAdapter.updateOne(state, {
         id: listId,
-        cards: sortedCards,
+        cards: updatedCards,
       });
     },
   },
