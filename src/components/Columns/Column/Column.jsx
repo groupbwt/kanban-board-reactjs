@@ -79,7 +79,9 @@ function Column({
     }
   }
 
-  function toggleStartDeletingList() {
+  function toggleStartDeletingList(e) {
+    e.stopPropagation();
+
     setIsStartedDeletingList((prevState) => !prevState);
   }
 

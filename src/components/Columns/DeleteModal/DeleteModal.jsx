@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'components/Modal/Modal';
 import { Button } from 'components/FormControls/Button/Button';
@@ -16,8 +16,22 @@ function DeleteModal({ title, maxWidth, onDelete, onCancel }) {
   const isCardDeleting = useSelector((state) => state.tasks.isDeletingCard);
   const isListDeleting = useSelector((state) => state.tasks.isDeletingList);
 
+  useEffect(() => {
+    function handler(e) {
+      if (e && e.keyCode === 27) {
+        onCancel(e);
+      }
+    }
+
+    document.addEventListener('keydown', handler);
+
+    return () => {
+      document.removeEventListener('keydown', handler);
+    };
+  }, []);
+
   return (
-    <Modal maxWidth={maxWidth}>
+    <Modal maxWidth={maxWidth} onClickOverlay={onCancel}>
       <div className={styles['card__delete-modal']}>
         <div className={styles['delete-modal__title']}>
           {`Are you sure to delete "${title}"?`}
