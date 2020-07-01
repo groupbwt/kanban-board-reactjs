@@ -1,7 +1,26 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createInjectorsEnhancer, forceReducerReload } from 'redux-injectors';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 import { createReducer } from './rootReducer';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['tasks'],
+};
+
+const persistedReducer = persistReducer(persistConfig, createReducer());
 
 function configureAppStore(initialState = {}) {
   const reduxSagaMonitorOptions = {};
@@ -19,15 +38,22 @@ function configureAppStore(initialState = {}) {
   ];
 
   const store = configureStore({
-    reducer: createReducer(),
-    middleware: [...getDefaultMiddleware({ thunk: false }), ...middlewares],
+    reducer: persistedReducer,
+    middleware: [
+      ...getDefaultMiddleware({
+        thunk: false,
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
+      ...middlewares,
+    ],
     preloadedState: initialState,
     devTools: process.env.NODE_ENV !== 'production',
     enhancers,
   });
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
-  /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./rootReducer', () => {
       forceReducerReload(store);
@@ -38,3 +64,4 @@ function configureAppStore(initialState = {}) {
 }
 
 export const store = configureAppStore();
+export const persistor = persistStore(store);
