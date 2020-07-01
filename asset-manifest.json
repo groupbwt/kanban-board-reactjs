@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/kanban-board-reactjs/static/css/main.8552ccd8.chunk.css",
-    "main.js": "/kanban-board-reactjs/static/js/main.ff58ac9f.chunk.js",
-    "main.js.map": "/kanban-board-reactjs/static/js/main.ff58ac9f.chunk.js.map",
-    "runtime-main.js": "/kanban-board-reactjs/static/js/runtime-main.48a6f2d8.js",
-    "runtime-main.js.map": "/kanban-board-reactjs/static/js/runtime-main.48a6f2d8.js.map",
-    "static/css/2.764ccc25.chunk.css": "/kanban-board-reactjs/static/css/2.764ccc25.chunk.css",
-    "static/js/2.190676d1.chunk.js": "/kanban-board-reactjs/static/js/2.190676d1.chunk.js",
-    "static/js/2.190676d1.chunk.js.map": "/kanban-board-reactjs/static/js/2.190676d1.chunk.js.map",
-    "index.html": "/kanban-board-reactjs/index.html",
-    "precache-manifest.91c23aadc3f3594bf32202a47aa5a4fe.js": "/kanban-board-reactjs/precache-manifest.91c23aadc3f3594bf32202a47aa5a4fe.js",
-    "service-worker.js": "/kanban-board-reactjs/service-worker.js",
-    "static/css/2.764ccc25.chunk.css.map": "/kanban-board-reactjs/static/css/2.764ccc25.chunk.css.map",
-    "static/css/main.8552ccd8.chunk.css.map": "/kanban-board-reactjs/static/css/main.8552ccd8.chunk.css.map",
-    "static/js/2.190676d1.chunk.js.LICENSE.txt": "/kanban-board-reactjs/static/js/2.190676d1.chunk.js.LICENSE.txt",
-    "static/media/Dashboard.module.scss": "/kanban-board-reactjs/static/media/dashboard-bg.d2ddeae5.jpg"
+    "main.css": "/static/css/main.c471d44c.chunk.css",
+    "main.js": "/static/js/main.fe7a5a92.chunk.js",
+    "main.js.map": "/static/js/main.fe7a5a92.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.8756d078.js",
+    "runtime-main.js.map": "/static/js/runtime-main.8756d078.js.map",
+    "static/css/2.764ccc25.chunk.css": "/static/css/2.764ccc25.chunk.css",
+    "static/js/2.190676d1.chunk.js": "/static/js/2.190676d1.chunk.js",
+    "static/js/2.190676d1.chunk.js.map": "/static/js/2.190676d1.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.fc340347b2164b82e113640ce1e02be9.js": "/precache-manifest.fc340347b2164b82e113640ce1e02be9.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.764ccc25.chunk.css.map": "/static/css/2.764ccc25.chunk.css.map",
+    "static/css/main.c471d44c.chunk.css.map": "/static/css/main.c471d44c.chunk.css.map",
+    "static/js/2.190676d1.chunk.js.LICENSE.txt": "/static/js/2.190676d1.chunk.js.LICENSE.txt",
+    "static/media/Dashboard.module.scss": "/static/media/dashboard-bg.d2ddeae5.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.48a6f2d8.js",
+    "static/js/runtime-main.8756d078.js",
     "static/css/2.764ccc25.chunk.css",
     "static/js/2.190676d1.chunk.js",
-    "static/css/main.8552ccd8.chunk.css",
-    "static/js/main.ff58ac9f.chunk.js"
+    "static/css/main.c471d44c.chunk.css",
+    "static/js/main.fe7a5a92.chunk.js"
   ]
 }
