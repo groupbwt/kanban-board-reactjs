@@ -7,7 +7,7 @@ const tasksAdapter = createEntityAdapter({});
 const initialState = {
   newListTitle: '',
   newCardTitles: {},
-  isLoading: false,
+  isTasksLoading: false,
   isLoadingNewList: false,
   isDeletingCard: false,
   isDeletingList: false,
@@ -18,14 +18,14 @@ const tasksSlice = createSlice({
   initialState: tasksAdapter.getInitialState(initialState),
   reducers: {
     getTasks(state) {
-      state.isLoading = true;
+      state.isTasksLoading = true;
     },
     tasksReceived(state, action) {
-      state.isLoading = false;
+      state.isTasksLoading = false;
       tasksAdapter.setAll(state, action.payload);
     },
     tasksFailed(state) {
-      state.isLoading = false;
+      state.isTasksLoading = false;
     },
     startCreateList(state) {
       state.isLoadingNewList = true;
