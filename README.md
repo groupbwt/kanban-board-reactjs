@@ -29,8 +29,7 @@ You will also see any lint errors in the console.
 ### `npm deploy`
 
 Runs deploying on a github-page<br />
-Put to package.json `"homepage": "https://groupbwt.github.io/kanban-board-reactjs/"`
-Run the script
+Before running the script, put to package.json `"homepage": "https://groupbwt.github.io/kanban-board-reactjs/"`
 
 ### `npm test`
 
