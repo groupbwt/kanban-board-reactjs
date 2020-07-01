@@ -6,12 +6,15 @@ import { injectSaga } from 'redux-injectors';
 import { watchersTasks } from 'redux/tasks/sagas';
 import { Columns } from 'components/Columns/Columns';
 import { TasksActions, TasksSelectors } from 'redux/tasks';
+import { PageLoader } from 'components/PageLoader/PageLoader';
 import styles from './Dashboard.module.scss';
 
 class Dashboard extends Component {
   componentDidMount() {
-    const { getTasks } = this.props;
-    getTasks();
+    const { getTasks, tasks } = this.props;
+    if (!tasks.length) {
+      getTasks();
+    }
   }
 
   onAddList = (title) => {
@@ -46,25 +49,30 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { tasks } = this.props;
+    const { tasks, isTasksLoading } = this.props;
+
     return (
-      <div className={classes(styles.dashboard, 'dashboard-page')}>
-        <Columns
-          columns={tasks}
-          onAddList={this.onAddList}
-          onDeleteList={this.onDeleteList}
-          onAddCard={this.onAddCard}
-          onDeleteCard={this.onDeleteCard}
-          onChangeCardOrder={this.onChangeCardOrder}
-          onChangeListOrder={this.onChangeListOrder}
-        />
-      </div>
+      <>
+        <div className={classes(styles.dashboard, 'dashboard-page')}>
+          <Columns
+            columns={tasks}
+            onAddList={this.onAddList}
+            onDeleteList={this.onDeleteList}
+            onAddCard={this.onAddCard}
+            onDeleteCard={this.onDeleteCard}
+            onChangeCardOrder={this.onChangeCardOrder}
+            onChangeListOrder={this.onChangeListOrder}
+          />
+        </div>
+        <PageLoader isLoading={isTasksLoading} />
+      </>
     );
   }
 }
 
 Dashboard.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.object),
+  isTasksLoading: PropTypes.bool.isRequired,
   getTasks: PropTypes.func.isRequired,
   startCreateList: PropTypes.func.isRequired,
   startDeletingList: PropTypes.func.isRequired,
@@ -80,6 +88,7 @@ Dashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   tasks: TasksSelectors.selectAll(state),
+  isTasksLoading: state.tasks.isTasksLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
