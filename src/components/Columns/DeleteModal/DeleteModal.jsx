@@ -19,7 +19,7 @@ function DeleteModal({ title, maxWidth, onDelete, onCancel }) {
     <Modal maxWidth={maxWidth}>
       <div className={styles['card__delete-modal']}>
         <div className={styles['delete-modal__title']}>
-          Are you sure to delete {title}?
+          {`Are you sure to delete "${title}"?`}
         </div>
         <div className={styles['delete-modal__actions']}>
           <Button
