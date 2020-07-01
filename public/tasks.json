@@ -14,6 +14,11 @@
           "id": "21",
           "order": 2,
           "title": "sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem"
+        },
+        {
+          "id": "31",
+          "order": 3,
+          "title": "Nor is there anyone"
         }
       ]
     },
@@ -31,43 +36,18 @@
           "id": "22",
           "order": 1,
           "title": "desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure"
-        },
-        {
-          "id": "32",
-          "order": 2,
-          "title": "1"
-        },
-        {
-          "id": "42",
-          "order": 3,
-          "title": "2"
         }
       ]
     },
     {
       "id": "3",
       "order": 2,
-      "title": "Plan on month",
+      "title": "Plan on year",
       "cards": [
         {
           "id": "13",
           "order": 0,
           "title": "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium"
-        },
-        {
-          "id": "23",
-          "order": 1,
-          "title": "Nor is there anyone"
-        },
-        {
-          "id": "33",
-          "order": 2,
-          "title": "column 3"
-        },
-        {
-          "id": "43",
-          "order": 3,
-          "title": "column 3 2"
         }
       ]
     }
