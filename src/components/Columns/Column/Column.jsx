@@ -41,15 +41,14 @@ function Column({
       const isNotChangedCards = prevProp.cards === nextProp.cards;
       const isNotChangedCardsLength =
         prevProp.cards.length === nextProp.cards.length;
-      return isNotChangedCards && isNotChangedCardsLength;
+      const isNotChangedCreatingFlag =
+        prevProp.isCreatingCard === nextProp.isCreatingCard;
+
+      return isNotChangedCards && isNotChangedCardsLength && isNotChangedCreatingFlag;
     }
   );
   const newCardTitle = useSelector(
     (state) => state.tasks.newCardTitles[id],
-    (prevProp, nextProp) => prevProp === nextProp
-  );
-  const isListDeleting = useSelector(
-    (state) => state.tasks.isDeletingList,
     (prevProp, nextProp) => prevProp === nextProp
   );
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
@@ -219,7 +218,6 @@ function Column({
             <DeleteModal
               title={title}
               maxWidth={400}
-              isDeleting={isListDeleting}
               onDelete={onDelList}
               onCancel={toggleStartDeletingList}
             />
