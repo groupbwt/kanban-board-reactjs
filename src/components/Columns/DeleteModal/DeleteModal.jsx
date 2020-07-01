@@ -3,27 +3,30 @@ import PropTypes from 'prop-types';
 import { Modal } from 'components/Modal/Modal';
 import { Button } from 'components/FormControls/Button/Button';
 import styles from 'components/Columns/ColumnCard/ColumnCard.module.scss';
+import { useSelector } from 'react-redux';
 
 DeleteModal.propTypes = {
   title: PropTypes.string.isRequired,
   maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  isDeleting: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
 
-function DeleteModal({ title, maxWidth, isDeleting, onDelete, onCancel }) {
+function DeleteModal({ title, maxWidth, onDelete, onCancel }) {
+  const isCardDeleting = useSelector((state) => state.tasks.isDeletingCard);
+  const isListDeleting = useSelector((state) => state.tasks.isDeletingList);
+
   return (
     <Modal maxWidth={maxWidth}>
       <div className={styles['card__delete-modal']}>
         <div className={styles['delete-modal__title']}>
-          Are you sure to delete {title}?
+          {`Are you sure to delete "${title}"?`}
         </div>
         <div className={styles['delete-modal__actions']}>
           <Button
             className={styles['delete-modal__btn']}
             onClick={onDelete}
-            loading={isDeleting}
+            loading={isCardDeleting || isListDeleting}
             color="red"
           >
             Delete
@@ -31,7 +34,7 @@ function DeleteModal({ title, maxWidth, isDeleting, onDelete, onCancel }) {
           <Button
             className={styles['delete-modal__btn']}
             onClick={onCancel}
-            disabled={isDeleting}
+            disabled={isCardDeleting || isListDeleting}
             color="dark-gray"
           >
             Cancel

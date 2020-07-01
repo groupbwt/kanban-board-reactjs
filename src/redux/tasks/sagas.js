@@ -1,5 +1,4 @@
 import { put, call, takeEvery, delay } from 'redux-saga/effects';
-import { v4 as uuidv4 } from 'uuid';
 import { TasksActions } from './index';
 
 function getTasksRequest() {
@@ -21,7 +20,6 @@ function* createCard(action) {
     TasksActions.createdCard({
       listId: action.payload.listId,
       card: {
-        id: uuidv4(),
         title: action.payload.title,
       },
     })
@@ -38,9 +36,7 @@ function* createList(action) {
   yield delay(800);
   yield put(
     TasksActions.createdList({
-      id: uuidv4(),
       title: action.payload.title,
-      cards: [],
     })
   );
 
@@ -59,10 +55,20 @@ function* deleteCard(action) {
   yield put(TasksActions.deletedCard(action.payload));
 }
 
+function* changeCardOrder(action) {
+  yield put(TasksActions.changedCardOrder(action.payload));
+}
+
+function* changeListOrder(action) {
+  yield put(TasksActions.changedListOrder(action.payload));
+}
+
 export function* watchersTasks() {
   yield takeEvery(TasksActions.getTasks.toString(), getTasks);
   yield takeEvery(TasksActions.startCreateList.toString(), createList);
   yield takeEvery(TasksActions.startDeletingList.toString(), deleteList);
   yield takeEvery(TasksActions.startCreateCard.toString(), createCard);
   yield takeEvery(TasksActions.startDeletingCard.toString(), deleteCard);
+  yield takeEvery(TasksActions.changeCardOrder.toString(), changeCardOrder);
+  yield takeEvery(TasksActions.changeListOrder.toString(), changeListOrder);
 }
