@@ -150,12 +150,10 @@ function Column({
               )}
             >
               <Droppable droppableId={id} type="card">
-                {(providedCards, snapshot) => (
+                {(providedCards) => (
                   <div
                     ref={providedCards.innerRef}
-                    className={classes({
-                      is: !!snapshot.isDraggingOver,
-                    })}
+                    className={styles['column__drop-zone']}
                     {...providedCards.droppableProps}
                   >
                     <ColumnCards
