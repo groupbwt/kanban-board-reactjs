@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "54f78ce7f49c6f28e91745497d302a77",
+    "revision": "7407a815b7996c9b53cea25e05aa03c1",
     "url": "/kanban-board-reactjs/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/kanban-board-reactjs/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "2732be0db84cd6ca1dc8",
+    "revision": "cc87497ddf0414825ad1",
     "url": "/kanban-board-reactjs/static/css/main.fb4c2d05.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/kanban-board-reactjs/static/js/2.190676d1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "2732be0db84cd6ca1dc8",
-    "url": "/kanban-board-reactjs/static/js/main.e762656a.chunk.js"
+    "revision": "cc87497ddf0414825ad1",
+    "url": "/kanban-board-reactjs/static/js/main.45b8a1c3.chunk.js"
   },
   {
     "revision": "f6a95dabc91673593f07",
