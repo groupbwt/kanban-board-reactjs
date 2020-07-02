@@ -11,6 +11,10 @@ Button.propTypes = {
   className: PropTypes.string,
   color: PropTypes.string,
   loading: PropTypes.bool,
+  innerRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
 };
 
 Button.defaultProps = {
@@ -27,18 +31,23 @@ function Button({
   className,
   color,
   loading,
+  innerRef,
   ...restProps
 }) {
   return (
     <button
+      ref={innerRef}
       type={type}
-      className={classnames({
-        [styles.button]: true,
-        [styles['button--with-icon']]: !!icon,
-        [className]: !!className,
-        [styles.icon]: displayType === 'icon',
-        [styles.loading]: loading,
-      }, styles[color])}
+      className={classnames(
+        {
+          [styles.button]: true,
+          [styles['button--with-icon']]: !!icon,
+          [className]: !!className,
+          [styles.icon]: displayType === 'icon',
+          [styles.loading]: loading,
+        },
+        styles[color]
+      )}
       {...restProps}
     >
       <div>
