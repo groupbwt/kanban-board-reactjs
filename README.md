@@ -1,5 +1,6 @@
 # kanban-board-reactjs
 The project is a simple copy to trello. <br />
+The project is served here - https://groupbwt.github.io/kanban-board-reactjs/ <br />
 This design was used for implementing UI - https://www.figma.com/file/odIzynKOUdBfpHccxxixrK <br />
 
 ## Technologies
