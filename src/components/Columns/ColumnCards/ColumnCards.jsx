@@ -17,9 +17,10 @@ function ColumnCards({ id, cards, onDeleteCard }) {
 
   return (
     <ul className={styles.cards}>
-      {cards.map((card) => (
+      {cards.map((card, index) => (
         <ColumnCard
           key={card.id}
+          index={index}
           id={card.id}
           listId={id}
           title={card.title}

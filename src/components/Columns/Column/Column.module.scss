@@ -33,7 +33,13 @@
   position: absolute;
   right: 8px;
   top: 22px;
+  opacity: 0.5;
   transform: translateY(-50%);
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .column__headerInput {
@@ -44,7 +50,12 @@
   flex-grow: 1;
   flex-shrink: 1;
   padding: 0 9px;
+  padding-top: 5px;
   overflow-y: auto;
+}
+
+.column__drop-zone {
+  min-height: 10px;
 }
 
 .column__buttons {

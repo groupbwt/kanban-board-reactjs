@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classes from 'classnames';
 import PropTypes from 'prop-types';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { TasksActions } from 'redux/tasks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +14,7 @@ import { ColumnCards } from '../ColumnCards/ColumnCards';
 import styles from './Column.module.scss';
 
 Column.propTypes = {
+  index: PropTypes.number.isRequired,
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   title: PropTypes.string,
   cards: PropTypes.arrayOf(PropTypes.object),
@@ -24,10 +26,31 @@ Column.defaultProps = {
   cards: [],
 };
 
-function Column({ id, title, cards, onDeleteList, onAddCard, onDeleteCard }) {
-  const column = useSelector((state) => state.tasks.entities[id]);
-  const newCardTitle = useSelector((state) => state.tasks.newCardTitles[id]);
-  const isListDeleting = useSelector((state) => state.tasks.isDeletingList);
+function Column({
+  index,
+  id,
+  title,
+  cards,
+  onDeleteList,
+  onAddCard,
+  onDeleteCard,
+}) {
+  const column = useSelector(
+    (state) => state.tasks.entities[id],
+    (prevProp, nextProp) => {
+      const isNotChangedCards = prevProp.cards === nextProp.cards;
+      const isNotChangedCardsLength =
+        prevProp.cards.length === nextProp.cards.length;
+      const isNotChangedCreatingFlag =
+        prevProp.isCreatingCard === nextProp.isCreatingCard;
+
+      return isNotChangedCards && isNotChangedCardsLength && isNotChangedCreatingFlag;
+    }
+  );
+  const newCardTitle = useSelector(
+    (state) => state.tasks.newCardTitles[id],
+    (prevProp, nextProp) => prevProp === nextProp
+  );
   const [isStartedCreatingCard, setIsStartedCreatingCard] = useState(false);
   const [isStartedDeletingList, setIsStartedDeletingList] = useState(false);
   const dispatch = useDispatch();
@@ -56,7 +79,9 @@ function Column({ id, title, cards, onDeleteList, onAddCard, onDeleteCard }) {
     }
   }
 
-  function toggleStartDeletingList() {
+  function toggleStartDeletingList(e) {
+    e.stopPropagation();
+
     setIsStartedDeletingList((prevState) => !prevState);
   }
 
@@ -97,87 +122,117 @@ function Column({ id, title, cards, onDeleteList, onAddCard, onDeleteCard }) {
   }
 
   return (
-    <>
-      <div className={styles.column}>
-        {title && (
-          <div className={styles.column__header}>
-            <ColumnTitle>{title}</ColumnTitle>
-            <Button
-              displayType="icon"
-              className={styles['column__delete-list-btn']}
-              onClick={toggleStartDeletingList}
-              color="red"
-              icon={<FontAwesomeIcon icon={faTrashAlt} />}
-            />
-          </div>
-        )}
-
-        <div
-          ref={columnCardsRef}
-          className={classes(
-            styles.column__cards,
-            `dashboard__column-${id}-cards`
-          )}
-        >
-          <ColumnCards cards={cards} id={id} onDeleteCard={onDeleteCard} />
-
-          {isStartedCreatingCard && (
-            <Textarea
-              inputRef={cardTextareaRef}
-              value={newCardTitle}
-              onChange={onChangeNewCardValue}
-              placeholder="Enter a title for this card..."
-              minRows={3}
-              maxRows={7}
-              autoFocus
-            />
-          )}
-        </div>
-        <div className={styles.column__buttons}>
-          {isStartedCreatingCard && (
-            <>
-              <Button
-                className={styles['column__btn--create']}
-                onClick={onCreateCard}
-                loading={column.isCreatingCard}
-                color="green"
-                icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
-              >
-                Add Card
-              </Button>
+    <Draggable draggableId={id} index={index}>
+      {(providedColumns) => (
+        <>
+          <div
+            ref={providedColumns.innerRef}
+            className={styles.column}
+            {...providedColumns.draggableProps}
+          >
+            <div
+              className={styles.column__header}
+              {...providedColumns.dragHandleProps}
+            >
+              <ColumnTitle>{title}</ColumnTitle>
               <Button
                 displayType="icon"
-                onClick={toggleStartCreatCard}
-                className={styles['column__btn--cancel']}
-                color="transparent"
-                disabled={column.isCreatingCard}
-                icon={<FontAwesomeIcon icon={faTimes} size="lg" />}
+                className={styles['column__delete-list-btn']}
+                onClick={toggleStartDeletingList}
+                color="red"
+                icon={<FontAwesomeIcon icon={faTrashAlt} />}
               />
-            </>
-          )}
-          {!isStartedCreatingCard && (
-            <Button
-              onClick={toggleStartCreatCard}
-              className={styles.column__btn}
-              icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
-            >
-              Add a card
-            </Button>
-          )}
-        </div>
-      </div>
+            </div>
 
-      {isStartedDeletingList && (
-        <DeleteModal
-          title={title}
-          maxWidth={400}
-          isDeleting={isListDeleting}
-          onDelete={onDelList}
-          onCancel={toggleStartDeletingList}
-        />
+            <div
+              ref={columnCardsRef}
+              className={classes(
+                styles.column__cards,
+                `dashboard__column-${id}-cards`
+              )}
+            >
+              <Droppable droppableId={id} type="card">
+                {(providedCards) => (
+                  <div
+                    ref={providedCards.innerRef}
+                    className={styles['column__drop-zone']}
+                    {...providedCards.droppableProps}
+                  >
+                    <ColumnCards
+                      id={id}
+                      cards={cards}
+                      onDeleteCard={onDeleteCard}
+                    />
+                    {providedCards.placeholder}
+                  </div>
+                )}
+              </Droppable>
+
+              {isStartedCreatingCard && (
+                <Textarea
+                  inputRef={cardTextareaRef}
+                  value={newCardTitle}
+                  onChange={onChangeNewCardValue}
+                  placeholder="Enter a title for this card..."
+                  minRows={3}
+                  maxRows={7}
+                  autoFocus
+                />
+              )}
+            </div>
+            <div className={styles.column__buttons}>
+              {isStartedCreatingCard && (
+                <>
+                  <Button
+                    className={styles['column__btn--create']}
+                    onClick={onCreateCard}
+                    loading={column.isCreatingCard}
+                    color="green"
+                    icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
+                  >
+                    Add Card
+                  </Button>
+                  <Button
+                    displayType="icon"
+                    onClick={toggleStartCreatCard}
+                    className={styles['column__btn--cancel']}
+                    color="transparent"
+                    disabled={column.isCreatingCard}
+                    icon={<FontAwesomeIcon icon={faTimes} size="lg" />}
+                  />
+                </>
+              )}
+              {!isStartedCreatingCard && (
+                <Button
+                  onClick={toggleStartCreatCard}
+                  className={styles.column__btn}
+                  icon={<FontAwesomeIcon icon={faPlus} size="sm" />}
+                >
+                  Add a card
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {isStartedDeletingList && (
+            <DeleteModal
+              title={title}
+              maxWidth={400}
+              onDelete={onDelList}
+              onCancel={toggleStartDeletingList}
+            />
+          )}
+        </>
       )}
-    </>
+    </Draggable>
   );
 }
 
-export { Column };
+const memoizedComponent = memo(Column, (oldProps, newProps) => {
+  const isNotChangedOrder = oldProps.index === newProps.index;
+  const isNotChangedCards = oldProps.cards === newProps.cards;
+
+  return isNotChangedCards && isNotChangedOrder;
+});
+
+export { memoizedComponent as Column };
