@@ -11,6 +11,7 @@ Button.propTypes = {
   className: PropTypes.string,
   color: PropTypes.string,
   loading: PropTypes.bool,
+  tag: PropTypes.string,
   innerRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
@@ -20,6 +21,7 @@ Button.propTypes = {
 Button.defaultProps = {
   displayType: 'default',
   type: 'button',
+  tag: 'button',
   loading: false,
 };
 
@@ -32,10 +34,13 @@ function Button({
   color,
   loading,
   innerRef,
+  tag,
   ...restProps
 }) {
+  const TaggedButton = tag;
+
   return (
-    <button
+    <TaggedButton
       ref={innerRef}
       type={type}
       className={classnames(
@@ -63,7 +68,7 @@ function Button({
           <div className={styles.button__spinner} />
         </>
       )}
-    </button>
+    </TaggedButton>
   );
 }
 
