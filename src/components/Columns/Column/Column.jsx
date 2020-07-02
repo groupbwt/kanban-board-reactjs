@@ -80,12 +80,15 @@ function Column({
   }
 
   function toggleStartDeletingList(e) {
+    e.preventDefault();
     e.stopPropagation();
 
     setIsStartedDeletingList((prevState) => !prevState);
   }
 
-  function toggleStartCreatCard() {
+  function toggleStartCreatCard(e) {
+    e.preventDefault();
+
     if (!isStartedCreatingCard) {
       dispatch(
         TasksActions.onChangeNewCardTitle({
@@ -136,6 +139,8 @@ function Column({
             >
               <ColumnTitle>{title}</ColumnTitle>
               <Button
+                tag='a'
+                href='#'
                 displayType="icon"
                 className={styles['column__delete-list-btn']}
                 onClick={toggleStartDeletingList}
@@ -193,6 +198,8 @@ function Column({
                     Add Card
                   </Button>
                   <Button
+                    tag='a'
+                    href='#'
                     displayType="icon"
                     onClick={toggleStartCreatCard}
                     className={styles['column__btn--cancel']}

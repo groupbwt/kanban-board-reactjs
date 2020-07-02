@@ -19,7 +19,9 @@ ColumnCard.propTypes = {
 function ColumnCard({ index, id, listId, title, onDeleteCard }) {
   const [isInitedDelete, setIsInitedDelete] = useState(false);
 
-  function toggleInitDelete() {
+  function toggleInitDelete(e) {
+    e.preventDefault();
+
     setIsInitedDelete((prevState) => !prevState);
   }
 
@@ -43,6 +45,8 @@ function ColumnCard({ index, id, listId, title, onDeleteCard }) {
             >
               {title}
               <Button
+                tag='a'
+                href='#'
                 displayType="icon"
                 className={styles['card__delete-btn']}
                 onClick={toggleInitDelete}
