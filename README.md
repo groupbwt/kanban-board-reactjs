@@ -1,12 +1,12 @@
 # kanban-board-reactjs
 The project is a simple copy to trello. <br />
-Follow this link to surf the project - https://groupbwt.github.io/kanban-board-reactjs/ <br />
+Follow this link to demo the project - https://groupbwt.github.io/kanban-board-reactjs/ <br />
 This design was used for implementing UI - https://www.figma.com/file/odIzynKOUdBfpHccxxixrK <br />
 
 ## Technologies
 This project was bootstrapped with Create React App. <br />
 Scss is used for managing styles. <br />
-The memoization is used in the app for better performance. <br />
+For better performance in the App the memorization is used. <br />
 
 Used internal main packages such as:
 - @reduxjs/toolkit
