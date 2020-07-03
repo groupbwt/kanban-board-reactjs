@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cbb30ca0a7409a71c99911b4dafd9a42",
+    "revision": "8a4a81113b3f322619484e1eaa6e446e",
     "url": "/kanban-board-reactjs/index.html"
   },
   {
-    "revision": "8b12dc2c08eeccee3d1c",
+    "revision": "30273622577301e9a553",
     "url": "/kanban-board-reactjs/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "9efb07a4801fbffd2b55",
-    "url": "/kanban-board-reactjs/static/css/main.275dfa2f.chunk.css"
+    "revision": "60d54ad25bdf95bb8139",
+    "url": "/kanban-board-reactjs/static/css/main.efac97f8.chunk.css"
   },
   {
-    "revision": "8b12dc2c08eeccee3d1c",
-    "url": "/kanban-board-reactjs/static/js/2.190676d1.chunk.js"
+    "revision": "30273622577301e9a553",
+    "url": "/kanban-board-reactjs/static/js/2.f35d3fc5.chunk.js"
   },
   {
     "revision": "3453b8997016469371284a28c0e873e2",
-    "url": "/kanban-board-reactjs/static/js/2.190676d1.chunk.js.LICENSE.txt"
+    "url": "/kanban-board-reactjs/static/js/2.f35d3fc5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "9efb07a4801fbffd2b55",
-    "url": "/kanban-board-reactjs/static/js/main.d2491009.chunk.js"
+    "revision": "60d54ad25bdf95bb8139",
+    "url": "/kanban-board-reactjs/static/js/main.70d9dcff.chunk.js"
   },
   {
     "revision": "f6a95dabc91673593f07",
