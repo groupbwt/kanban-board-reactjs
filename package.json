@@ -1,5 +1,6 @@
 {
   "name": "kanban-board-reactjs",
+  "homepage": "https://groupbwt.github.io/kanban-board-reactjs/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,6 +17,7 @@
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -38,7 +40,8 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "ie >= 9"
     ],
     "development": [
       "last 1 chrome version",
